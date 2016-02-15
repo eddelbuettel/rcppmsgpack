@@ -1,0 +1,30 @@
+
+Overall license:
+================
+   The (vast) majority of the files in this package are released under the
+   Boost Software License, Versin 1.0 (ie BSL-1.0).
+
+   The aggregation, integration and packaging work is released under the
+   GNU GPL (>= 2) with the added provision that the package as a whole is
+   licensed under the BSL-1.0.
+
+Details:
+========
+
+Files: *
+Copyright: 2016         Dirk Eddelbuettel
+License: GPL (>= 2)
+
+Files inst/include/*:
+Copyright: 2008 - 2016  FURUHASHI Sadayuki
+Copyright: 2008 - 2016  FURUHASHI Sadayuki and KONDO Takatoshi
+Copyright: 2013 - 2016  KONDO Takatoshi
+Copyright: 2013 - 2016  Vladimir Volodko and KONDO Takatoshi
+Copyright: 2015 - 2016  MIZUKI Hirata
+Portions Copyright: 2011 - 2014  Edward Diener 
+Portions Copyright: 2002 - 2012  Paul Mensonides 
+Portions Copyright: 2014         Microsoft Corporation 
+Portions Copyright: 2014         Franz Detro 
+Portions Copyright: 2014         Jessica Hamilton 
+Portions Copyright: 2005- 2014   Rene Rivera 
+License: BSL-1.0

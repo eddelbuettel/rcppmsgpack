@@ -1,0 +1,13 @@
+2016-02-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include: Initial version based on msgpack-c version 1.4.0
+
+	* DESCRIPTION: Add Copyright: reference to inst/COPYRIGHTS, overall
+	Copyright: is BSL-1.0
+
+	* inst/COPYRIGHTS: Detailing various copyrights
+
+	* tests/simpleTests.R: Minimal test added
+
+	* inst/NEWS.Rd: Added
+
