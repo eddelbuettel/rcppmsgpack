@@ -22,7 +22,7 @@ flags correctly on all architectures supported by R.
 
 See the [BH](http://dirk.eddelbuettel.com/code/bh.html) package for related (and also
 header-only) libraries from [Boost](http://www.boost.org/), and the
-[RcppRedis](http://dirk.eddelbuettel.com/code/rcppredis.html) for simple yet performant
+[RcppRedis](http://dirk.eddelbuettel.com/code/rcppredis.html) package for simple yet performant
 Redis support.
 
 The [issue tracker](https://github.com/eddelbuettel/rcppmsgpack/issues)
