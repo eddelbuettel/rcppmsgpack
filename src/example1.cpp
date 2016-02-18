@@ -4,6 +4,12 @@
 
 #include <msgpack.hpp>
 
+//' Simple MsgPack Example
+//' 
+//' @details The function provides a simple illustration of MessagePack.
+//' @return A boolean value of \code{TRUE} is returned, but the function exists
+//' for its side effect.
+//' @seealso The MessagePack documentation, particularly the msgpack-c examples.
 // [[Rcpp::export]]
 bool arrayEx() {
     msgpack::type::tuple<int, bool, std::string> src(1, true, "example");
@@ -27,7 +33,7 @@ bool arrayEx() {
     msgpack::object deserialized = result.get();
 
     // msgpack::object supports ostream.
-    std::cout << deserialized << std::endl;
+    Rcpp::Rcout << deserialized << std::endl;
 
     // convert msgpack::object instance into the original type.
     // if the type is mismatched, it throws msgpack::type_error exception.

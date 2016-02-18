@@ -1,3 +1,11 @@
+2016-02-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/example1.cpp: Added manual page entry
+
+2016-02-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/example1.cpp: Added simple example
+
 2016-02-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include: Initial version based on msgpack-c version 1.4.0
