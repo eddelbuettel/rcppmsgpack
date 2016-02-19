@@ -1,3 +1,7 @@
+2016-02-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/example2.cpp: Added second example
+
 2016-02-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/example1.cpp: Added manual page entry

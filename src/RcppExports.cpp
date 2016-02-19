@@ -15,3 +15,13 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// enumEx
+bool enumEx();
+RcppExport SEXP RcppMsgPack_enumEx() {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    __result = Rcpp::wrap(enumEx());
+    return __result;
+END_RCPP
+}

@@ -11,3 +11,13 @@ arrayEx <- function() {
     .Call('RcppMsgPack_arrayEx', PACKAGE = 'RcppMsgPack')
 }
 
+#' Second simple MsgPack Example
+#' 
+#' @details The function provides a simple illustration of MessagePack.
+#' @return A boolean value of \code{TRUE} is returned, but the function exists
+#' for its side effect.
+#' @seealso The MessagePack documentation, particularly the msgpack-c examples.
+enumEx <- function() {
+    .Call('RcppMsgPack_enumEx', PACKAGE = 'RcppMsgPack')
+}
+
