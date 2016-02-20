@@ -1,3 +1,9 @@
+2016-02-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Copyright): Add that the package status is still in
+	transition.
+	* README.md: Ditto
+
 2016-02-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/example2.cpp: Added second example

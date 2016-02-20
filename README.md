@@ -17,6 +17,8 @@ To use this package, simply add it to the `LinkingTo:` field in the `DESCRIPTION
 your R package---and the R package infrastructure tools will then know how to set include
 flags correctly on all architectures supported by R.
 
+The package is in alpha state / transition. We may alter it to just depend on
+external msgpack headers.
 
 ### See Also
 
