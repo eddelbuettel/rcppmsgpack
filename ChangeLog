@@ -1,7 +1,13 @@
+2016-04-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.1.0
+
+	* DESCRIPTION: One more edit about status and copyright,
+	* README.ndL Ditto
+
 2016-02-20  Dirk Eddelbuettel  <edd@debian.org>
 
-	* DESCRIPTION (Copyright): Add that the package status is still in
-	transition.
+	* DESCRIPTION: Add that the package status is still in transition.
 	* README.md: Ditto
 
 2016-02-19  Dirk Eddelbuettel  <edd@debian.org>
@@ -20,8 +26,7 @@
 
 	* inst/include: Initial version based on msgpack-c version 1.4.0
 
-	* DESCRIPTION: Add Copyright: reference to inst/COPYRIGHTS, overall
-	Copyright: is BSL-1.0
+	* DESCRIPTION: Add Copyright: reference to inst/COPYRIGHTS
 
 	* inst/COPYRIGHTS: Detailing various copyrights
 

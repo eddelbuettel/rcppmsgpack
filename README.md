@@ -1,4 +1,4 @@
-## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://img.shields.io/badge/license-BSL--1.0-brightgreen.svg?style=flat)](http://www.boost.org/users/license.html) [![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](http://cran.rstudio.com/package=RcppMsgPack) [![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://cran.rstudio.com/package=RcppMsgPack)
+## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) 
 
 MsgPack Headers for R
 
@@ -11,14 +11,27 @@ like JSON. But it is faster and smaller. Small integers are encoded into a singl
 and typical short strings require only one extra byte in addition to the strings
 themselves.
 
-[MessagePack](http://msgpack.org/) is used by [Redis](http://redis.io) and many other projects.
+[MessagePack](http://msgpack.org/) is used by Redis and many other projects.
 
 To use this package, simply add it to the `LinkingTo:` field in the `DESCRIPTION` field of
 your R package---and the R package infrastructure tools will then know how to set include
 flags correctly on all architectures supported by R.
 
-The package is in alpha state / transition. We may alter it to just depend on
-external msgpack headers.
+### Installation
+
+The package is available via the [ghrr drat](http://ghrr.github.io/drat)
+repository:
+
+```{.r}
+drat::addRepo("ghrr")
+install.packages("RcppMsgPack")
+```
+
+### Status
+
+The package currently includes the MsgPack headers. We may alter it to
+depend on external msgpack headers once Debian contains release 1.4.0
+or later in its main distribution (as opposed to the experimental one).
 
 ### See Also
 
@@ -26,6 +39,8 @@ See the [BH](http://dirk.eddelbuettel.com/code/bh.html) package for related (and
 header-only) libraries from [Boost](http://www.boost.org/), and the
 [RcppRedis](http://dirk.eddelbuettel.com/code/rcppredis.html) package for simple yet performant
 Redis support.
+
+### Bug Reports
 
 The [issue tracker](https://github.com/eddelbuettel/rcppmsgpack/issues)
 can be used for bug reports or feature requests.
@@ -36,4 +51,5 @@ Dirk Eddelbuettel
 
 ### License
 
-This package is provided under the same license as Boost, the BSL-1.0
+The R package is provided under the GPL (version 2 or later).  The included
+MsgPack library is released same license as Boost, the BSL-1.0
