@@ -54,4 +54,5 @@ bool enumEx() {
         Rcpp::Rcout << objz.as<my_enum>() << std::endl;
         assert(objz.as<my_enum>() == elem3);
     }
+    return true;
 }
