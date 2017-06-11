@@ -20,4 +20,5 @@ License: GPL (>= 2)
 Imports: Rcpp
 LinkingTo: Rcpp
 BugReports: https://github.com/eddelbuettel/rcppmsgpack/issues
+OS_type: unix
 RoxygenNote: 5.0.1
