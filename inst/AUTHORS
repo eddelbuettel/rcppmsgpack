@@ -1,0 +1,21 @@
+MsgPack is written mostly by Sadayuki Furuhashi and Takatoshi Kondo and
+released under ths Boost Software License, Version 1.0
+
+The MsgPack website contains a copyright footer
+
+    Copyright © 2008-2013 Sadayuki Furuhashi
+
+The included header files for msgpack-c, version 1.4.2 contains copyright
+notices which can be aggregated (via grep, sort, uniq and minor manual
+editing to create per-author supersets) to
+
+Copyright (c) 2008-2015 FURUHASHI Sadayuki and KONDO Takatoshi
+Copyright (c) 2008-2012 Rene Rivera 
+Copyright (c) 2002-2012 Paul Mensonides
+Copyright (c) 2002 Anthony Ventimiglia
+Copyright (c) 2011-2014 Edward Diener
+Copyright (c) 2013 Vladimir Volodko
+Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2014 Franz Detro
+Copyright (c) 2014 Jessica Hamilton 
+Copyright (c) 2015 MIZUKI Hirata

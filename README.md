@@ -29,9 +29,7 @@ install.packages("RcppMsgPack")
 
 ### Status
 
-The package currently includes the MsgPack headers. We may alter it to
-depend on external msgpack headers once Debian contains release 1.4.0
-or later in its main distribution (as opposed to the experimental one).
+The package currently includes the MsgPack headers version 1.4.2. 
 
 ### See Also
 
@@ -52,4 +50,4 @@ Dirk Eddelbuettel
 ### License
 
 The R package is provided under the GPL (version 2 or later).  The included
-MsgPack library is released same license as Boost, the BSL-1.0
+MsgPack library is released under the same license as Boost, the BSL-1.0

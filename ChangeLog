@@ -1,6 +1,17 @@
+2017-06-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.1.1
+
+	* inst/include/msgpack: Updated to upstream release 1.4.2
+
+	* inst/AUTHORS: Added
+
+	* README.md: Use alternates for img.shields.io GPL-2+ badges
+	* rcppmsgpack.Rproj: Added for RStudio
+
 2016-04-24  Dirk Eddelbuettel  <edd@debian.org>
 
-	* DESCRIPTION: Version 0.1.0
+	* DESCRIPTION: (UnreleVersion 0.1.0
 
 	* DESCRIPTION: One more edit about status and copyright,
 	* README.ndL Ditto

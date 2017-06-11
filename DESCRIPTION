@@ -1,25 +1,20 @@
 Package: RcppMsgPack
 Type: Package
 Title: 'MsgPack' C++ Header Files
-Version: 0.1.0
-Date: 2016-04-24
-Author: Dirk Eddelbuettel
+Version: 0.1.1
+Date: 2017-06-11
+Author: Dirk Eddelbuettel; the authors and contributors of MsgPack
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: 'MessagePack' is an efficient binary serialization format.
  It lets you exchange data among multiple languages like 'JSON'. But it is
  faster and smaller. Small integers are encoded into a single byte, and
  typical short strings require only one extra byte in addition to the strings
- themselves.
- .    
- This package provides headers from the 'msgpack-c' implementation for C
- and C++(11) for use by R, particularly 'Rcpp'. The included 'msgpack-c'
- header are licensed under the Boost Software License (Version 1.0); the
- code added by this package as well the R integration are licensed under 
- the GPL (>= 2).
- .
- The package currently includes the 'MessagePack' headers. We may alter it 
- to depend on external 'MessagePack' headers once Debian get release 1.4.0
- or later in its main distribution (as opposed to the experimental one).
+ themselves. This package provides headers from the 'msgpack-c'
+ implementation for C and C++(11) for use by R, particularly 'Rcpp'. The
+ included 'msgpack-c' header are licensed under the Boost Software License
+ (Version 1.0); the code added by this package as well the R integration are
+ licensed under the GPL (>= 2). See the files 'COPYRIGHTS' and 'AUTHORS' for
+ a full list of  copyright holders and contributors to MsgPack.  
 Copyright: file inst/COPYRIGHTS
 License: GPL (>= 2)
 Imports: Rcpp
