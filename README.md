@@ -1,10 +1,10 @@
-## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) 
+## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) 
 
 MsgPack Headers for R
 
 ### About
 
-This package provides [R](http://www.r-project.org) with
+This package provides [R](https://www.r-project.org) with
 [MessagePack](http://msgpack.org/) header files.  [MessagePack](http://msgpack.org/) is an
 efficient binary serialization format.  It lets you exchange data among multiple languages
 like JSON. But it is faster and smaller. Small integers are encoded into a single byte,
