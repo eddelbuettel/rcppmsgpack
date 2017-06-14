@@ -1,4 +1,4 @@
-## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) 
+## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) [![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://www.r-pkg.org/pkg/MsgPack)
 
 MsgPack Headers for R
 
@@ -19,7 +19,14 @@ flags correctly on all architectures supported by R.
 
 ### Installation
 
-The package is available via the [ghrr drat](http://ghrr.github.io/drat)
+The package is on [CRAN](https://cran.r-project.org) and can be installed via
+a standard
+
+```r
+install.packages("RcppMsgPack")
+```
+
+Pre-releases have been available via the [ghrr drat](http://ghrr.github.io/drat)
 repository:
 
 ```{.r}
