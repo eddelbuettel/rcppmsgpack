@@ -1,8 +1,8 @@
 Package: RcppMsgPack
 Type: Package
 Title: 'MsgPack' C++ Header Files
-Version: 0.1.1
-Date: 2017-06-12
+Version: 0.1.1.1
+Date: 2017-06-17
 Author: Dirk Eddelbuettel; the authors and contributors of MsgPack
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: 'MessagePack' is an efficient binary serialization format.
@@ -20,5 +20,4 @@ License: GPL (>= 2)
 Imports: Rcpp
 LinkingTo: Rcpp
 BugReports: https://github.com/eddelbuettel/rcppmsgpack/issues
-OS_type: unix
 RoxygenNote: 5.0.1

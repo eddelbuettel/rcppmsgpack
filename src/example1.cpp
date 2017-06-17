@@ -1,8 +1,9 @@
 // This example is based on msgpack-c/example/cpp03/simple.cpp 
 
-#include <Rcpp.h>
-
 #include <msgpack.hpp>
+#undef ERROR
+
+#include <Rcpp.h>
 
 //' Simple MsgPack Example
 //' 
