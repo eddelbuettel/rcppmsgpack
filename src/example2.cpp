@@ -11,7 +11,7 @@ enum my_enum {
     elem3
 };
 
-MSGPACK_ADD_ENUM(my_enum);
+MSGPACK_ADD_ENUM(my_enum)
 
 //' Second simple MsgPack Example
 //' 
