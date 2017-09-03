@@ -25,6 +25,8 @@ using v1::type::NIL;
 using v1::type::BOOLEAN;
 using v1::type::POSITIVE_INTEGER;
 using v1::type::NEGATIVE_INTEGER;
+using v1::type::FLOAT32;
+using v1::type::FLOAT64;
 using v1::type::FLOAT;
 #if defined(MSGPACK_USE_LEGACY_NAME_AS_FLOAT)
 using v1::type::DOUBLE;
@@ -36,7 +38,8 @@ using v1::type::MAP;
 using v1::type::EXT;
 } // namespace type
 
-using v1::object;
+struct object;
+
 using v1::object_kv;
 
 using v1::object_array;

@@ -1,7 +1,7 @@
 //
 // MessagePack for C++ zero-copy buffer implementation
 //
-// Copyright (C) 2008-2013 FURUHASHI Sadayuki and KONDO Takatoshi
+// Copyright (C) 2008-2017 FURUHASHI Sadayuki and KONDO Takatoshi
 //
 //    Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
@@ -22,7 +22,7 @@
 #endif
 #endif // defined(_MSC_VER)
 
-#ifndef _WIN32
+#if defined(unix) || defined(__unix) || defined(__APPLE__) || defined(__OpenBSD__)
 #include <sys/uio.h>
 #else
 struct iovec {
@@ -81,7 +81,7 @@ public:
         ib->free = chunk_size;
         ib->ptr      = reinterpret_cast<char*>(c) + sizeof(chunk);
         ib->head = c;
-        c->next = nullptr;
+        c->next = MSGPACK_NULLPTR;
 
     }
 
@@ -188,7 +188,7 @@ public:
             throw std::bad_alloc();
         }
 
-        empty->next = nullptr;
+        empty->next = MSGPACK_NULLPTR;
 
         const size_t nused = m_tail - m_array;
         if(to->m_tail + nused < m_end) {
@@ -255,7 +255,7 @@ public:
 
         inner_buffer* const ib = &m_inner_buffer;
         c = ib->head;
-        c->next = nullptr;
+        c->next = MSGPACK_NULLPTR;
         ib->free = m_chunk_size;
         ib->ptr      = reinterpret_cast<char*>(c) + sizeof(chunk);
 

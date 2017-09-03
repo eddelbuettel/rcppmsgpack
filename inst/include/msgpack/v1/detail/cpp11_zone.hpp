@@ -33,7 +33,7 @@ private:
         void* m_data;
     };
     struct finalizer_array {
-        finalizer_array():m_tail(nullptr), m_end(nullptr), m_array(nullptr) {}
+        finalizer_array():m_tail(MSGPACK_NULLPTR), m_end(MSGPACK_NULLPTR), m_array(MSGPACK_NULLPTR) {}
         void call() {
             finalizer* fin = m_tail;
             for(; fin != m_array; --fin) (*(fin-1))();
@@ -84,9 +84,9 @@ private:
         finalizer_array(finalizer_array&& other) noexcept
             :m_tail(other.m_tail), m_end(other.m_end), m_array(other.m_array)
         {
-            other.m_tail = nullptr;
-            other.m_end = nullptr;
-            other.m_array = nullptr;
+            other.m_tail = MSGPACK_NULLPTR;
+            other.m_end = MSGPACK_NULLPTR;
+            other.m_array = MSGPACK_NULLPTR;
         }
         finalizer_array& operator=(finalizer_array&& other) noexcept
         {
@@ -117,7 +117,7 @@ private:
             m_head = c;
             m_free = chunk_size;
             m_ptr  = reinterpret_cast<char*>(c) + sizeof(chunk);
-            c->m_next = nullptr;
+            c->m_next = MSGPACK_NULLPTR;
         }
         ~chunk_list()
         {
@@ -141,14 +141,14 @@ private:
                     break;
                 }
             }
-            m_head->m_next = nullptr;
+            m_head->m_next = MSGPACK_NULLPTR;
             m_free = chunk_size;
             m_ptr  = reinterpret_cast<char*>(m_head) + sizeof(chunk);
         }
         chunk_list(chunk_list&& other) noexcept
             :m_free(other.m_free), m_ptr(other.m_ptr), m_head(other.m_head)
         {
-            other.m_head = nullptr;
+            other.m_head = MSGPACK_NULLPTR;
         }
         chunk_list& operator=(chunk_list&& other) noexcept
         {
@@ -183,7 +183,6 @@ public:
     void clear();
 
     void swap(zone& o);
-
 
     static void* operator new(std::size_t size)
     {
@@ -220,44 +219,51 @@ private:
     template <typename T>
     static void object_delete(void* obj);
 
-    void* allocate_expand(size_t size);
+    static char* get_aligned(char* ptr, size_t align);
+
+    char* allocate_expand(size_t size);
 };
 
 inline zone::zone(size_t chunk_size) noexcept:m_chunk_size(chunk_size), m_chunk_list(m_chunk_size)
 {
 }
 
-inline void* zone::allocate_align(size_t size, size_t align)
+inline char* zone::get_aligned(char* ptr, size_t align)
 {
-    char* aligned =
+    return
         reinterpret_cast<char*>(
             reinterpret_cast<size_t>(
-                (m_chunk_list.m_ptr + (align - 1))) / align * align);
+            (ptr + (align - 1))) / align * align);
+}
+
+inline void* zone::allocate_align(size_t size, size_t align)
+{
+    char* aligned = get_aligned(m_chunk_list.m_ptr, align);
     size_t adjusted_size = size + (aligned - m_chunk_list.m_ptr);
-    if(m_chunk_list.m_free >= adjusted_size) {
-        m_chunk_list.m_free -= adjusted_size;
-        m_chunk_list.m_ptr  += adjusted_size;
-        return aligned;
+    if (m_chunk_list.m_free < adjusted_size) {
+        size_t enough_size = size + align - 1;
+        char* ptr = allocate_expand(enough_size);
+        aligned = get_aligned(ptr, align);
+        adjusted_size = size + (aligned - m_chunk_list.m_ptr);
     }
-    return reinterpret_cast<char*>(
-        reinterpret_cast<size_t>(
-            allocate_expand(size + (align - 1))) / align * align);
+    m_chunk_list.m_free -= adjusted_size;
+    m_chunk_list.m_ptr  += adjusted_size;
+    return aligned;
 }
 
 inline void* zone::allocate_no_align(size_t size)
 {
-    if(m_chunk_list.m_free < size) {
-        return allocate_expand(size);
-    }
-
     char* ptr = m_chunk_list.m_ptr;
+    if(m_chunk_list.m_free < size) {
+        ptr = allocate_expand(size);
+    }
     m_chunk_list.m_free -= size;
     m_chunk_list.m_ptr  += size;
 
     return ptr;
 }
 
-inline void* zone::allocate_expand(size_t size)
+inline char* zone::allocate_expand(size_t size)
 {
     chunk_list* const cl = &m_chunk_list;
 
@@ -279,8 +285,8 @@ inline void* zone::allocate_expand(size_t size)
 
     c->m_next  = cl->m_head;
     cl->m_head = c;
-    cl->m_free = sz - size;
-    cl->m_ptr  = ptr + size;
+    cl->m_free = sz;
+    cl->m_ptr  = ptr;
 
     return ptr;
 }
@@ -329,7 +335,7 @@ inline void zone::undo_allocate(size_t size)
 template <typename T, typename... Args>
 T* zone::allocate(Args... args)
 {
-    void* x = allocate_align(sizeof(T));
+    void* x = allocate_align(sizeof(T), MSGPACK_ZONE_ALIGNOF(T));
     try {
         m_finalizer_array.push(&zone::object_destruct<T>, x);
     } catch (...) {

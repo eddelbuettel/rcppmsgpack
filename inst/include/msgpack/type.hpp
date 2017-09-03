@@ -1,6 +1,7 @@
 #include "cpp_config.hpp"
 #include "adaptor/array_ref.hpp"
 #include "adaptor/bool.hpp"
+#include "adaptor/carray.hpp"
 #include "adaptor/char_ptr.hpp"
 #include "adaptor/deque.hpp"
 #include "adaptor/ext.hpp"
@@ -14,6 +15,7 @@
 #include "adaptor/raw.hpp"
 #include "adaptor/v4raw.hpp"
 #include "adaptor/set.hpp"
+#include "adaptor/size_equal_only.hpp"
 #include "adaptor/string.hpp"
 #include "adaptor/vector.hpp"
 #include "adaptor/vector_bool.hpp"
@@ -40,6 +42,13 @@
 #include "adaptor/cpp11/unordered_map.hpp"
 #include "adaptor/cpp11/unordered_set.hpp"
 
+#if __cplusplus >= 201703
+
+#include "adaptor/cpp17/optional.hpp"
+#include "adaptor/cpp17/string_view.hpp"
+
+#endif // __cplusplus >= 201703
+
 #endif // defined(MSGPACK_USE_CPP03)
 
 #if defined(MSGPACK_USE_BOOST)
@@ -48,5 +57,6 @@
 #include "adaptor/boost/msgpack_variant.hpp"
 #include "adaptor/boost/optional.hpp"
 #include "adaptor/boost/string_ref.hpp"
+#include "adaptor/boost/string_view.hpp"
 
 #endif // defined(MSGPACK_USE_BOOST)

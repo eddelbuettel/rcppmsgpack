@@ -21,78 +21,29 @@ MSGPACK_API_VERSION_NAMESPACE(v1) {
 /// @endcond
 
 namespace type {
-    // tuple
-    using std::get;
-    using std::tuple_size;
-    using std::tuple_element;
-    using std::uses_allocator;
-    using std::ignore;
-    using std::swap;
 
-    template< class... Types >
-    class tuple : public std::tuple<Types...> {
-    public:
-        using base = std::tuple<Types...>;
+template <class... Args>
+inline tuple<Args...> make_tuple(Args&&... args) {
+    return tuple<Args...>(std::forward<Args>(args)...);
+}
 
-        using base::base;
+template<class... Args>
+inline tuple<Args&&...> forward_as_tuple (Args&&... args) noexcept {
+    return tuple<Args&&...>(std::forward<Args>(args)...);
+}
 
-        tuple() = default;
-        tuple(tuple const&) = default;
-        tuple(tuple&&) = default;
+template <class... Tuples>
+inline auto tuple_cat(Tuples&&... args) ->
+    decltype(
+        std::tuple_cat(std::forward<typename std::remove_reference<Tuples>::type::base>(args)...)
+    ) {
+    return std::tuple_cat(std::forward<typename std::remove_reference<Tuples>::type::base>(args)...);
+}
 
-        template<typename... OtherTypes>
-        tuple(tuple<OtherTypes...> const& other):base(static_cast<std::tuple<OtherTypes...> const&>(other)) {}
-        template<typename... OtherTypes>
-        tuple(tuple<OtherTypes...> && other):base(static_cast<std::tuple<OtherTypes...> &&>(other)) {}
-
-        tuple& operator=(tuple const&) = default;
-        tuple& operator=(tuple&&) = default;
-
-        template<typename... OtherTypes>
-        tuple& operator=(tuple<OtherTypes...> const& other) {
-            *static_cast<base*>(this) = static_cast<std::tuple<OtherTypes...> const&>(other);
-            return *this;
-        }
-        template<typename... OtherTypes>
-        tuple& operator=(tuple<OtherTypes...> && other) {
-            *static_cast<base*>(this) = static_cast<std::tuple<OtherTypes...> &&>(other);
-            return *this;
-        }
-
-        template< std::size_t I>
-        typename tuple_element<I, base >::type&
-        get() & { return std::get<I>(*this); }
-
-        template< std::size_t I>
-        typename tuple_element<I, base >::type const&
-        get() const& { return std::get<I>(*this); }
-
-        template< std::size_t I>
-        typename tuple_element<I, base >::type&&
-        get() && { return std::get<I>(*this); }
-    };
-
-    template <class... Args>
-    inline tuple<Args...> make_tuple(Args&&... args) {
-        return tuple<Args...>(args...);
-    }
-
-    template<class... Args>
-    inline tuple<Args&&...> forward_as_tuple (Args&&... args) noexcept {
-        return tuple<Args&&...>(std::forward<Args>(args)...);
-    }
-
-    template <class... Tuples>
-    inline auto tuple_cat(Tuples&&... args) ->
-        decltype(
-            std::tuple_cat(std::forward<typename std::remove_reference<Tuples>::type::base>(args)...)
-        ) {
-        return std::tuple_cat(std::forward<typename std::remove_reference<Tuples>::type::base>(args)...);
-    }
-    template <class... Args>
-    inline tuple<Args&...> tie(Args&... args) {
-        return tuple<Args&...>(args...);
-    }
+template <class... Args>
+inline tuple<Args&...> tie(Args&... args) {
+    return tuple<Args&...>(args...);
+}
 } // namespace type
 
 // --- Pack from tuple to packer stream ---
@@ -170,7 +121,8 @@ struct MsgpackTupleConverter {
         msgpack::object const& o,
         Tuple& v) {
         MsgpackTupleConverter<Tuple, N-1>::convert(o, v);
-        o.via.array.ptr[N-1].convert<typename std::remove_reference<decltype(type::get<N-1>(v))>::type>(type::get<N-1>(v));
+        if (o.via.array.size >= N)
+            o.via.array.ptr[N-1].convert<typename std::remove_reference<decltype(type::get<N-1>(v))>::type>(type::get<N-1>(v));
     }
 };
 
@@ -194,11 +146,10 @@ struct MsgpackTupleConverter<Tuple, 0> {
 namespace adaptor {
 
 template <typename... Args>
-struct as<msgpack::type::tuple<Args...>, typename std::enable_if<msgpack::all_of<msgpack::has_as, Args...>::value>::type>  {
+struct as<msgpack::type::tuple<Args...>, typename std::enable_if<msgpack::any_of<msgpack::has_as, Args...>::value>::type>  {
     msgpack::type::tuple<Args...> operator()(
         msgpack::object const& o) const {
         if (o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
-        if (o.via.array.size < sizeof...(Args)) { throw msgpack::type_error(); }
         return MsgpackTupleAs<Args...>::as(o);
     }
 };
@@ -209,7 +160,6 @@ struct convert<msgpack::type::tuple<Args...>> {
         msgpack::object const& o,
         msgpack::type::tuple<Args...>& v) const {
         if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
-        if(o.via.array.size < sizeof...(Args)) { throw msgpack::type_error(); }
         MsgpackTupleConverter<decltype(v), sizeof...(Args)>::convert(o, v);
         return o;
     }
@@ -253,7 +203,7 @@ template <typename... Args>
         msgpack::object::with_zone& o,
         msgpack::type::tuple<Args...> const& v) const {
         o.type = msgpack::type::ARRAY;
-        o.via.array.ptr = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*sizeof...(Args)));
+        o.via.array.ptr = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*sizeof...(Args), MSGPACK_ZONE_ALIGNOF(msgpack::object)));
         o.via.array.size = sizeof...(Args);
         MsgpackTupleToObjectWithZone<decltype(v), sizeof...(Args)>::convert(o, v);
     }
