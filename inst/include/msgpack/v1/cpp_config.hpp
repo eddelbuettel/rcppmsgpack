@@ -70,6 +70,54 @@ struct underlying_type {
     typedef int type;
 };
 
+template<class T>
+struct is_array : false_type {};
+
+template<class T>
+struct is_array<T[]> : true_type {};
+
+template<class T, std::size_t N>
+struct is_array<T[N]> : true_type {};
+
+
+template<class T>
+struct remove_const {
+    typedef T type;
+};
+template<class T>
+struct remove_const<const T> {
+    typedef T type;
+};
+
+template<class T>
+struct remove_volatile {
+    typedef T type;
+};
+template<class T>
+struct remove_volatile<volatile T> {
+    typedef T type;
+};
+
+template<class T>
+struct remove_cv {
+    typedef typename msgpack::remove_volatile<
+        typename msgpack::remove_const<T>::type
+    >::type type;
+};
+
+namespace detail {
+
+template<class T>
+struct is_pointer_helper : false_type {};
+
+template<class T>
+struct is_pointer_helper<T*> : true_type {};
+
+} // namespace detail
+
+template<class T> struct is_pointer : detail::is_pointer_helper<typename remove_cv<T>::type> {};
+
+
 /// @cond
 }  // MSGPACK_API_VERSION_NAMESPACE(v1)
 /// @endcond
@@ -77,5 +125,11 @@ struct underlying_type {
 }  // namespace msgpack
 
 #endif // MSGPACK_USE_CPP03
+
+#if __cplusplus >= 201402L
+#define MSGPACK_DEPRECATED(msg) [[deprecated(msg)]]
+#else  // __cplusplus >= 201402L
+#define MSGPACK_DEPRECATED(msg)
+#endif // __cplusplus >= 201402L
 
 #endif // MSGPACK_V1_CPP_CONFIG_HPP

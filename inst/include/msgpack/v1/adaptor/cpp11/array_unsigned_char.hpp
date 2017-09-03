@@ -30,17 +30,24 @@ struct convert<std::array<unsigned char, N>> {
     msgpack::object const& operator()(msgpack::object const& o, std::array<unsigned char, N>& v) const {
         switch (o.type) {
         case msgpack::type::BIN:
-            if(o.via.bin.size != N) { throw msgpack::type_error(); }
+            if(o.via.bin.size > N) { throw msgpack::type_error(); }
             std::memcpy(v.data(), o.via.bin.ptr, o.via.bin.size);
             break;
         case msgpack::type::STR:
-            if(o.via.str.size != N) { throw msgpack::type_error(); }
+            if(o.via.str.size > N) { throw msgpack::type_error(); }
             std::memcpy(v.data(), o.via.str.ptr, N);
             break;
         default:
             throw msgpack::type_error();
             break;
         }
+        return o;
+    }
+};
+
+template <>
+struct convert<std::array<unsigned char, 0>> {
+    msgpack::object const& operator()(msgpack::object const& o, std::array<unsigned char, 0>&) const {
         return o;
     }
 };
@@ -72,7 +79,7 @@ struct object_with_zone<std::array<unsigned char, N>> {
     void operator()(msgpack::object::with_zone& o, const std::array<unsigned char, N>& v) const {
         uint32_t size = checked_get_container_size(v.size());
         o.type = msgpack::type::BIN;
-        char* ptr = static_cast<char*>(o.zone.allocate_align(size));
+        char* ptr = static_cast<char*>(o.zone.allocate_align(size, MSGPACK_ZONE_ALIGNOF(char)));
         o.via.bin.ptr = ptr;
         o.via.bin.size = size;
         std::memcpy(ptr, v.data(), size);

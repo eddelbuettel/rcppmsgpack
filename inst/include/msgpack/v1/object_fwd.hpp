@@ -62,7 +62,7 @@ private:
     template <typename>
     static std::false_type check(...);
 public:
-    using type = decltype(check<T>(nullptr));
+    using type = decltype(check<T>(MSGPACK_NULLPTR));
     static constexpr bool value = type::value;
 };
 
@@ -78,6 +78,7 @@ struct object {
         uint64_t u64;
         int64_t  i64;
 #if defined(MSGPACK_USE_LEGACY_NAME_AS_FLOAT)
+        MSGPACK_DEPRECATED("please use f64 instead")
         double   dec; // obsolete
 #endif // MSGPACK_USE_LEGACY_NAME_AS_FLOAT
         double   f64;
@@ -138,7 +139,14 @@ struct object {
      * @return The reference of `v`.
      */
     template <typename T>
-    T& convert(T& v) const;
+    typename msgpack::enable_if<
+        !msgpack::is_array<T>::value && !msgpack::is_pointer<T>::value,
+        T&
+    >::type
+    convert(T& v) const;
+
+    template <typename T, std::size_t N>
+    T (&convert(T(&v)[N]) const)[N];
 
 
 #if !defined(MSGPACK_DISABLE_LEGACY_CONVERT)
@@ -150,7 +158,12 @@ struct object {
      * @return The pointer of `v`.
      */
     template <typename T>
-    T* convert(T* v) const;
+    MSGPACK_DEPRECATED("please use reference version instead")
+    typename msgpack::enable_if<
+        msgpack::is_pointer<T>::value,
+        T
+    >::type
+    convert(T v) const;
 #endif // !defined(MSGPACK_DISABLE_LEGACY_CONVERT)
 
     /// Convert the object if not nil
@@ -203,6 +216,7 @@ struct object {
      * @param z The pointer to the zone that is used by the object.
      */
     template <typename T>
+    MSGPACK_DEPRECATED("please use zone reference version instead of the pointer version")
     object(const T& v, msgpack::zone* z);
 
     template <typename T>
@@ -212,7 +226,7 @@ struct object {
 
     struct with_zone;
 
-private:
+protected:
     struct implicit_type;
 
 public:
@@ -221,16 +235,15 @@ public:
 
 class type_error : public std::bad_cast { };
 
-struct object_kv {
-    msgpack::object key;
-    msgpack::object val;
-};
+struct object::implicit_type {
+    implicit_type(object const& o) : obj(o) { }
+    ~implicit_type() { }
 
-struct object::with_zone : object {
-    with_zone(msgpack::zone& z) : zone(z) { }
-    msgpack::zone& zone;
+    template <typename T>
+    operator T();
+
 private:
-    with_zone();
+    object const& obj;
 };
 
 /// @cond

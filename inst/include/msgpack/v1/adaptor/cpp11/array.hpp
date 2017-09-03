@@ -75,7 +75,7 @@ template <typename T, std::size_t N>
 struct as<std::array<T, N>, typename std::enable_if<msgpack::has_as<T>::value>::type> {
     std::array<T, N> operator()(msgpack::object const& o) const {
         if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
-        if(o.via.array.size != N) { throw msgpack::type_error(); }
+        if(o.via.array.size > N) { throw msgpack::type_error(); }
         return detail::array::as_impl<T, N>::as(o);
     }
 };
@@ -84,7 +84,7 @@ template <typename T, std::size_t N>
 struct convert<std::array<T, N>> {
     msgpack::object const& operator()(msgpack::object const& o, std::array<T, N>& v) const {
         if(o.type != msgpack::type::ARRAY) { throw msgpack::type_error(); }
-        if(o.via.array.size != N) { throw msgpack::type_error(); }
+        if(o.via.array.size > N) { throw msgpack::type_error(); }
         if(o.via.array.size > 0) {
             msgpack::object* p = o.via.array.ptr;
             msgpack::object* const pend = o.via.array.ptr + o.via.array.size;
@@ -115,11 +115,11 @@ struct object_with_zone<std::array<T, N>> {
     void operator()(msgpack::object::with_zone& o, const std::array<T, N>& v) const {
         o.type = msgpack::type::ARRAY;
         if(v.empty()) {
-            o.via.array.ptr = nullptr;
+            o.via.array.ptr = MSGPACK_NULLPTR;
             o.via.array.size = 0;
         } else {
             uint32_t size = checked_get_container_size(v.size());
-            msgpack::object* p = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*size));
+            msgpack::object* p = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*size, MSGPACK_ZONE_ALIGNOF(msgpack::object)));
             o.via.array.size = size;
             o.via.array.ptr = p;
             for (auto const& e : v) *p++ = msgpack::object(e, o.zone);

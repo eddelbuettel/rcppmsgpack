@@ -28,15 +28,23 @@ template<bool...> struct bool_pack;
 
 template<bool...values> struct all_of_imp;
 
+template<bool...values> struct any_of_imp;
+
 } // namespace detail
 
 template<template <class> class T, class... U>
 using all_of = detail::all_of_imp<T<U>::value...>;
 
+template<template <class> class T, class... U>
+using any_of = detail::any_of_imp<(T<U>::value)...>;
+
 template<std::size_t... Is> struct seq;
 
 template<std::size_t N, std::size_t... Is>
 struct gen_seq;
+
+template <typename T>
+struct is_non_const_pointer;
 
 /// @cond
 } // MSGPACK_API_VERSION_NAMESPACE(v1)

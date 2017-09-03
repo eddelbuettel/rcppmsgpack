@@ -1,3 +1,7 @@
+2017-09-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/msgpack/: Updated to MsgPack 2.1.5
+
 2017-08-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Update travis.yml to use run.sh
@@ -23,14 +27,14 @@
 
 	* inst/AUTHORS: Added
 
-	* DESCRIPTION((OS_type): Set to 'unix'
+	* DESCRIPTION(OS_type): Set to 'unix'
 
 	* README.md: Use alternates for img.shields.io GPL-2+ badges
 	* rcppmsgpack.Rproj: Added for RStudio
 
 2016-04-24  Dirk Eddelbuettel  <edd@debian.org>
 
-	* DESCRIPTION: (UnreleVersion 0.1.0
+	* DESCRIPTION: (drat release only) Version 0.1.0
 
 	* DESCRIPTION: One more edit about status and copyright,
 	* README.ndL Ditto
