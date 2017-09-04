@@ -5,9 +5,31 @@
 
 using namespace Rcpp;
 
+// c_pack
+RawVector c_pack(SEXP root_obj);
+RcppExport SEXP _RcppMsgPack_c_pack(SEXP root_objSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type root_obj(root_objSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_pack(root_obj));
+    return rcpp_result_gen;
+END_RCPP
+}
+// c_unpack
+SEXP c_unpack(std::vector<unsigned char> char_message);
+RcppExport SEXP _RcppMsgPack_c_unpack(SEXP char_messageSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<unsigned char> >::type char_message(char_messageSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_unpack(char_message));
+    return rcpp_result_gen;
+END_RCPP
+}
 // arrayEx
 bool arrayEx();
-RcppExport SEXP RcppMsgPack_arrayEx() {
+RcppExport SEXP _RcppMsgPack_arrayEx() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -17,7 +39,7 @@ END_RCPP
 }
 // enumEx
 bool enumEx();
-RcppExport SEXP RcppMsgPack_enumEx() {
+RcppExport SEXP _RcppMsgPack_enumEx() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -27,8 +49,10 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"RcppMsgPack_arrayEx", (DL_FUNC) &RcppMsgPack_arrayEx, 0},
-    {"RcppMsgPack_enumEx", (DL_FUNC) &RcppMsgPack_enumEx, 0},
+    {"_RcppMsgPack_c_pack", (DL_FUNC) &_RcppMsgPack_c_pack, 1},
+    {"_RcppMsgPack_c_unpack", (DL_FUNC) &_RcppMsgPack_c_unpack, 1},
+    {"_RcppMsgPack_arrayEx", (DL_FUNC) &_RcppMsgPack_arrayEx, 0},
+    {"_RcppMsgPack_enumEx", (DL_FUNC) &_RcppMsgPack_enumEx, 0},
     {NULL, NULL, 0}
 };
 
