@@ -22,7 +22,7 @@ See `tests/tests.r` for more examples.
 library(RcppMsgPack)
 library(microbenchmark)
 
-x <- as.list(1:1e7)
-microbenchmark(xpk <- msgpack_pack(x), times=3) # ~ 0.5 seconds
-microbenchmark(xu <- msgpack_unpack(xpk), times=3) # ~ 2.5-3 seconds
+x <- as.list(1:1e6)
+microbenchmark(xpk <- msgpack_pack(x), times=3)
+microbenchmark(xu <- msgpack_unpack(xpk), times=3)
 ```

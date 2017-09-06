@@ -2,9 +2,12 @@
 % Please edit documentation in R/functions.r
 \name{msgpack_unpack}
 \alias{msgpack_unpack}
+\alias{msgpackUnpack}
 \title{'MsgPack' Unpack}
 \usage{
 msgpack_unpack(message)
+
+msgpackUnpack(message)
 }
 \arguments{
 \item{message}{A raw vector containing the message.}
@@ -16,7 +19,6 @@ The message pack object(s) converted into R types.  If more than one object exis
 De-serialize a 'MsgPack' message.  Array is converted into List. Map is converted into Map/Data.frame. Extension types are converted into raw vectors with EXT attribute.  Integers, Floats, Strings, Raw and Nil are converted into Integer, Float, Character, Raw and NULL respectively.
 }
 \examples{
-library(RcppMsgPack)
 x <- msgpack_format(1:10)
 x_packed <- msgpack_pack(x)
 x_unpacked <- msgpack_unpack(x_packed)

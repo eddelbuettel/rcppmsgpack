@@ -3,12 +3,10 @@
 #' @param x Return object from msgpack_unpack.  
 #' @return A simplified return object from msgpack_unpack.  Lists of all the same type are concatenated into an atomic vector.  Maps are simplified to named lists or named vectors as appropriate.  NULLs are converted to NAs if simplified to vector.  
 #' @examples
-#' library(RcppMsgPack)
 #' x <- msgpack_format(1:10)
 #' x_packed <- msgpack_pack(x)
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
-#' @export
 msgpack_simplify <- function(x) {
     if(!is.list(x)) return(x)
 
@@ -49,17 +47,18 @@ msgpack_simplify <- function(x) {
     }
 }
 
+#' @rdname msgpack_simplify
+msgpackSimplify <- msgpack_simplify
+
 #' Format data for 'MsgPack'
 #' @description A helper function to format R data for input to 'MsgPack'.
 #' @param x An r object.
 #' @return A formatted R object to use as input to msgpack_pack.  Vectors are converted into Lists.  
 #' @examples
-#' library(RcppMsgPack)
 #' x <- msgpack_format(1:10)
 #' x_packed <- msgpack_pack(x)
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
-#' @export
 msgpack_format <- function(x) {
     xc <- class(x)[1]
     # print(xc)
@@ -85,17 +84,18 @@ msgpack_format <- function(x) {
     }
 }
 
+#' @rdname msgpack_format
+msgpackFormat <- msgpack_format
+
 #' 'MsgPack' Map
 #' @description A helper function to create a map object for input to 'MsgPack'.
 #' @param key A list or vector of keys (coerced to list).  Duplicate keys are fine (connects to std::multimap in C++).  
 #' @param value A list or vector of values (coerced to list).  This should be the same length as key.
 #' @return An data.frame also of class "map" that can be used as input to msgpack_pack.  
 #' @examples
-#' library(RcppMsgPack)
 #' x <- msgpack_map(key=letters[1:10], value=1:10)
 #' x_packed <- msgpack_pack(x)
 #' x_unpacked <- msgpack_unpack(x_packed)
-#' @export
 msgpack_map <- function(key, value) {
     for(a in attributes(key)) {
         attr(key, a) <- NULL
@@ -109,18 +109,19 @@ msgpack_map <- function(key, value) {
     return(x)
 }
 
+#' @rdname msgpack_map
+msgpackMap <- msgpack_map
+
 #' 'MsgPack' Pack
 #' @description Serialize any number of objects into a single message.  Unnamed List is converted into Array, Map/Data.frame and Named Lists are converted into Maps.  Integer, Double, Character, Raw vectors and NULL are converted into Int types (depending on size), Float types, String, Raw and Nil respectively.  Raw vectors with EXT attribute are converted into Extension types.  The EXT attribute should be an integer from 0 to 127.  
 #' @param ... Any R objects that have corresponding msgpack types.  
 #' @return A raw vector containing the message.  
 #' @examples
-#' library(RcppMsgPack)
 #' x <- msgpack_format(1:10)
 #' x_packed <- msgpack_pack(x)
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
 #' @seealso See examples/tests.r for more examples.  
-#' @export
 msgpack_pack <- function(...) {
     obj_list <- list(...)
     if(length(obj_list) == 1) {
@@ -131,18 +132,22 @@ msgpack_pack <- function(...) {
     }
 }
 
+#' @rdname msgpack_pack
+msgpackPack <- msgpack_pack
+
 #' 'MsgPack' Unpack
 #' @description De-serialize a 'MsgPack' message.  Array is converted into List. Map is converted into Map/Data.frame. Extension types are converted into raw vectors with EXT attribute.  Integers, Floats, Strings, Raw and Nil are converted into Integer, Float, Character, Raw and NULL respectively.  
 #' @param message A raw vector containing the message.  
 #' @return The message pack object(s) converted into R types.  If more than one object exists in the message, a list of class "msgpack_set" containing the objects is returned.  
 #' @examples
-#' library(RcppMsgPack)
 #' x <- msgpack_format(1:10)
 #' x_packed <- msgpack_pack(x)
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
 #' @seealso See examples/tests.r for more examples.  
-#' @export
 msgpack_unpack <- function(message) {
     c_unpack(message)
 }
+
+#' @rdname msgpack_unpack
+msgpackUnpack <- msgpack_unpack

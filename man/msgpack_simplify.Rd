@@ -2,9 +2,12 @@
 % Please edit documentation in R/functions.r
 \name{msgpack_simplify}
 \alias{msgpack_simplify}
+\alias{msgpackSimplify}
 \title{Simplify 'MsgPack'}
 \usage{
 msgpack_simplify(x)
+
+msgpackSimplify(x)
 }
 \arguments{
 \item{x}{Return object from msgpack_unpack.}
@@ -16,7 +19,6 @@ A simplified return object from msgpack_unpack.  Lists of all the same type are 
 A helper function for simplifying a 'MsgPack' return object.
 }
 \examples{
-library(RcppMsgPack)
 x <- msgpack_format(1:10)
 x_packed <- msgpack_pack(x)
 x_unpacked <- msgpack_unpack(x_packed)

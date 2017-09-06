@@ -2,9 +2,12 @@
 % Please edit documentation in R/functions.r
 \name{msgpack_map}
 \alias{msgpack_map}
+\alias{msgpackMap}
 \title{'MsgPack' Map}
 \usage{
 msgpack_map(key, value)
+
+msgpackMap(key, value)
 }
 \arguments{
 \item{key}{A list or vector of keys (coerced to list).  Duplicate keys are fine (connects to std::multimap in C++).}
@@ -18,7 +21,6 @@ An data.frame also of class "map" that can be used as input to msgpack_pack.
 A helper function to create a map object for input to 'MsgPack'.
 }
 \examples{
-library(RcppMsgPack)
 x <- msgpack_map(key=letters[1:10], value=1:10)
 x_packed <- msgpack_pack(x)
 x_unpacked <- msgpack_unpack(x_packed)

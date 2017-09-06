@@ -2,9 +2,12 @@
 % Please edit documentation in R/functions.r
 \name{msgpack_format}
 \alias{msgpack_format}
+\alias{msgpackFormat}
 \title{Format data for 'MsgPack'}
 \usage{
 msgpack_format(x)
+
+msgpackFormat(x)
 }
 \arguments{
 \item{x}{An r object.}
@@ -16,7 +19,6 @@ A formatted R object to use as input to msgpack_pack.  Vectors are converted int
 A helper function to format R data for input to 'MsgPack'.
 }
 \examples{
-library(RcppMsgPack)
 x <- msgpack_format(1:10)
 x_packed <- msgpack_pack(x)
 x_unpacked <- msgpack_unpack(x_packed)
