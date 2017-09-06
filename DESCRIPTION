@@ -1,9 +1,9 @@
 Package: RcppMsgPack
 Type: Package
 Title: 'MsgPack' C++ Header Files
-Version: 0.1.1.2
-Date: 2017-09-04
-Author: Travers Ching; Dirk Eddelbuettel; the authors and contributors of MsgPack
+Version: 0.1.1.3
+Date: 2017-09-06
+Author: Travers Ching and Dirk Eddelbuettel; the authors and contributors of MsgPack
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: 'MessagePack' is an efficient binary serialization format.
  It lets you exchange data among multiple languages like 'JSON'. But it is

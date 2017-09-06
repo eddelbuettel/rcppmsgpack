@@ -75,8 +75,6 @@ void addToPack(SEXP obj, msgpack::packer<std::stringstream>& pkr) {
     }
 }
 
-// [[Rcpp::plugins(cpp11)]]
-// [[Rcpp::depends(BH)]]
 // [[Rcpp::export]]
 RawVector c_pack(SEXP root_obj) {
     std::stringstream buffer;

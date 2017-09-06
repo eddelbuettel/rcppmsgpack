@@ -9,4 +9,4 @@ Rcpp*.tar.gz
 *.Rcheck
 ..Rcheck
 rebuild.sh
-
+local
