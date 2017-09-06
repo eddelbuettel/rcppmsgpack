@@ -19,4 +19,3 @@ The function provides a simple illustration of MessagePack.
 \seealso{
 The MessagePack documentation, particularly the msgpack-c examples.
 }
-

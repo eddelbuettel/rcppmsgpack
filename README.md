@@ -1,4 +1,4 @@
-## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) [![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://www.r-pkg.org/pkg/MsgPack)
+## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) [![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://www.r-pkg.org/pkg/RcppMsgPack)
 
 MsgPack Headers for R
 
