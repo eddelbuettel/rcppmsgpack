@@ -1,7 +1,8 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppMsgPack}}
-\newcommand{\cpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
-\newcommand{\ghissue}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}}
+\newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
+\newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
+
 
 \section{Changes in version 0.2.0 (2017-09-07)}{
   \itemize{

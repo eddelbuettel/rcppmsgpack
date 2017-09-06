@@ -4,18 +4,20 @@ MsgPack Headers for R
 
 ### About
 
-This package provides [R](https://www.r-project.org) with
-[MessagePack](http://msgpack.org/) header files.  [MessagePack](http://msgpack.org/) is an
-efficient binary serialization format.  It lets you exchange data among multiple languages
-like JSON. But it is faster and smaller. Small integers are encoded into a single byte,
-and typical short strings require only one extra byte in addition to the strings
-themselves.
+This package provides [R](https://www.r-project.org) with both the
+[MessagePack](http://msgpack.org/) (or MsgPack as a shorthand) header files, and the 
+ability to access, create and alter [MessagePack](http://msgpack.org/) objects directly from
+[R](https://www.r-project.org). 
 
-[MessagePack](http://msgpack.org/) is used by Redis and many other projects.
+[MessagePack](http://msgpack.org/) is an efficient binary serialization format.  
+It lets you exchange data among multiple languages like JSON. But it is faster and smaller. 
+Small integers are encoded into a single byte, and typical short strings require only one 
+extra byte in addition to the strings themselves.  [MessagePack](http://msgpack.org/) is 
+used by Redis and many other projects.
 
-To use this package, simply add it to the `LinkingTo:` field in the `DESCRIPTION` field of
-your R package---and the R package infrastructure tools will then know how to set include
-flags correctly on all architectures supported by R.
+To use the headers from this package, simply add it to the `LinkingTo:` field in the 
+`DESCRIPTION` field of your R package---and the R package infrastructure tools will then 
+know how to set include flags correctly on all architectures supported by R.
 
 ### Installation
 
@@ -36,7 +38,7 @@ install.packages("RcppMsgPack")
 
 ### Status
 
-The package currently includes the MsgPack headers version 1.4.2. 
+The package currently includes the MessagePack headers version 2.1.5. 
 
 ### See Also
 
@@ -52,9 +54,9 @@ can be used for bug reports or feature requests.
 
 ### Author 
 
-Dirk Eddelbuettel
+Dirk Eddelbuettel and Travers Ching
 
 ### License
 
 The R package is provided under the GPL (version 2 or later).  The included
-MsgPack library is released under the same license as Boost, the BSL-1.0
+MsgPack library is released under the same license as Boost, the BSL-1.0.
