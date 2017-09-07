@@ -5,8 +5,7 @@ Version: 0.2.0
 Date: 2017-09-07
 Author: Travers Ching and Dirk Eddelbuettel; the authors and contributors of MsgPack
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Description: 
-This package provides R with both 'MsgPack' header files, and the
+Description: This package provides R with both 'MsgPack' header files, and the
  ability to access, create and alter 'MsgPack' objects directly from R.
  'MsgPack' is an efficient binary serialization format. It lets you exchange
  data among multiple languages like 'JSON' but it is faster and smaller.
