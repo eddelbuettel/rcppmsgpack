@@ -1,6 +1,6 @@
 ## RcppMsgPack [![Build Status](https://travis-ci.org/eddelbuettel/rcppmsgpack.svg)](https://travis-ci.org/eddelbuettel/rcppmsgpack) [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) [![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://www.r-pkg.org/pkg/RcppMsgPack)
 
-MsgPack Headers for R
+MsgPack Headers for R and interface functions
 
 ### About
 
@@ -15,9 +15,31 @@ Small integers are encoded into a single byte, and typical short strings require
 extra byte in addition to the strings themselves.  [MessagePack](http://msgpack.org/) is 
 used by Redis and many other projects.
 
+### Usage
+#### C++ headers
+
 To use the headers from this package, simply add it to the `LinkingTo:` field in the 
 `DESCRIPTION` field of your R package---and the R package infrastructure tools will then 
 know how to set include flags correctly on all architectures supported by R.
+
+#### Interface functions
+The functions `msgpack_pack` and `msgpack_unpack` allow you to serialize and de-serialize R objects respectively.  `msgpack_format` is a helper function to properly format R objects for input.  `msgpack_simplify` is a helper function to simplify output from MsgPack conversion.  
+
+Msgpack EXT types are converted to raw vectors with EXT attributes containing the extension type.  The extension type must be an integer from 0 to 127.  
+
+Msgpack Maps are converted to data.frames with additional class "map".  Map objects in R contain key and value list columns and can be simplified to named lists or named vectors.  The helper function `msgpack_map` creates map objects that can be serialized into msgpack.  
+
+![flowchart](https://raw.githubusercontent.com/traversc/msgpack2R/master/vignettes/msgpack_flowchart.png "Conversion flowchart")
+*A flowchart describing the conversion of R objects into msgpack objects and back.*
+
+For more information on msgpack types, see [here](https://github.com/msgpack/msgpack/blob/master/spec.md).  
+
+#### Example:
+```
+x <- as.list(1:1e6)
+x_packed <- msgpack_pack(x)
+x_unpacked <- msgpack_unpack(x_packed)
+```
 
 ### Installation
 
