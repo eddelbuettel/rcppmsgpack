@@ -95,8 +95,6 @@ struct unpack_visitor:boost::static_visitor<SEXP> {
     }
 };
 
-// [[Rcpp::plugins(cpp11)]]
-// [[Rcpp::depends(BH)]]
 // [[Rcpp::export]]
 SEXP c_unpack(std::vector<unsigned char> char_message) {
     // std::vector<unsigned char> char_message = as< std::vector<unsigned char> >(raw_message); // cast from RawVector

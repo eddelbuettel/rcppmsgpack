@@ -1,3 +1,33 @@
+2017-09-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* NAMESPACE: Minor edits
+	* R/RcppExports.R (c_pack): Regenerated
+
+2017-09-05  Travers Ching  <traversc@gmail.com>
+
+	* R/functions.r: camelCase variants msgpackFormat,
+	msgpackMap, msgpackPack, msgpackSimplify, mgspackUnpack
+	* man/*Rd: Corresponding aliases
+
+2017-09-04  Travers Ching  <traversc@gmail.com>
+
+	* R/functions.r: New functions msgpack_format, msgpack_map,
+	msgpack_pack, msgpack_simplify, mgspack_unpack
+
+	* man/mgspack_format.Rd: New documentation
+	* man/mgspack_map.Rd: Ditto
+	* man/mgspack_pack.Rd: Ditto
+	* man/mgspack_simplify.Rd: Ditto
+	* man/mgspack_unpack.Rd: Ditto
+
+	* src/c_pack.cpp: Underlying functions addToPack, c_pack
+	* src/c_unpack.cpp: Underlying function c_unpack
+
+	* tests/tests.r: New tests
+
+	* vignette/vignette.rmd: New vignette
+	* vignette/msgpack_flowchart.*: Supporting files
+
 2017-09-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version
