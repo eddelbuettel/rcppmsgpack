@@ -52,11 +52,13 @@ xpk <- msgpack_pack(x)
 stopifnot(identical(msgpack_unpack(xpk), x))
 
 
-# unicode or something characters - note this doesn't always work if you copy/paste into a terminal because of how terminals encode text, but if you source this file it works
-x <- list('图书，通常在狭义上的理解是带有文字和图像的纸张的集合。书通常由墨水、纸张、羊皮纸或者其他材料固定在书脊上组成。组成书的一张纸称为一张，一张的一面称为一页。但随着科学技术的发展，狭义图书的概念也在扩展，制作书的材料也在改变，如电子格式的电子书。从广义理解的图书，则是一切传播讯息的媒介。书也指文学作品或者其中的一部分。在图书馆信息学中，书被称为专著，以区别于杂志、学术期刊、报纸等连载期刊。所有的书面作品（包括图书）的主体是文学。在小说和一些类型（如传记）中，书可能还要分成卷。对书特别喜爱的人被称为爱书者或藏书家，更随意的称呼是书虫或者书呆子。买书的地方叫书店，图书馆则是可以借阅书籍的地方。2010年，谷歌公司估计，从印刷术发明至今，大概出版了一亿三千万本不同书名的书籍。[1]')
-xpk <- msgpack_pack(x)
-xu <- msgpack_unpack(xpk)
-stopifnot(identical(x, xu))
+if (Sys.info()[['sysname']] != "Windows") {
+    ## unicode or something characters - note this doesn't always work if you copy/paste into a terminal because of how terminals encode text, but if you source this file it works
+    x <- list('图书，通常在狭义上的理解是带有文字和图像的纸张的集合。书通常由墨水、纸张、羊皮纸或者其他材料固定在书脊上组成。组成书的一张纸称为一张，一张的一面称为一页。但随着科学技术的发展，狭义图书的概念也在扩展，制作书的材料也在改变，如电子格式的电子书。从广义理解的图书，则是一切传播讯息的媒介。书也指文学作品或者其中的一部分。在图书馆信息学中，书被称为专著，以区别于杂志、学术期刊、报纸等连载期刊。所有的书面作品（包括图书）的主体是文学。在小说和一些类型（如传记）中，书可能还要分成卷。对书特别喜爱的人被称为爱书者或藏书家，更随意的称呼是书虫或者书呆子。买书的地方叫书店，图书馆则是可以借阅书籍的地方。2010年，谷歌公司估计，从印刷术发明至今，大概出版了一亿三千万本不同书名的书籍。[1]')
+    xpk <- msgpack_pack(x)
+    xu <- msgpack_unpack(xpk)
+    stopifnot(identical(x, xu))
+}
 
 # Complex nested object with lists and map
 x <- as.raw(c(0x28, 0x4F))

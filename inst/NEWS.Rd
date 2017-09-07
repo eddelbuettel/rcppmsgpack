@@ -3,7 +3,6 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
-
 \section{Changes in version 0.2.0 (2017-09-07)}{
   \itemize{
     \item Added support for building on Windows
