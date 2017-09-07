@@ -22,7 +22,7 @@ To use the headers from this package, simply add it to the `LinkingTo:` field in
 `DESCRIPTION` field of your R package---and the R package infrastructure tools will then 
 know how to set include flags correctly on all architectures supported by R.
 
-####Interface functions
+#### Interface functions
 The functions `msgpack_pack` and `msgpack_unpack` allow you to serialize and de-serialize R objects respectively.  `msgpack_format` is a helper function to properly format R objects for input.  `msgpack_simplify` is a helper function to simplify output from MsgPack conversion.  
 
 Msgpack EXT types are converted to raw vectors with EXT attributes containing the extension type.  The extension type must be an integer from 0 to 127.  
