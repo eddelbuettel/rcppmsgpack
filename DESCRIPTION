@@ -1,8 +1,8 @@
 Package: RcppMsgPack
 Type: Package
-Title: 'MsgPack' C++ Header Files and R interface functions
-Version: 0.2.0
-Date: 2017-09-07
+Title: 'MsgPack' C++ Header Files and Interface Functions for R
+Version: 0.2.1
+Date: 2017-09-13
 Author: Travers Ching and Dirk Eddelbuettel; the authors and contributors of MsgPack
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: This package provides R with both 'MsgPack' header files, and the

@@ -91,7 +91,28 @@ xu <- msgpack_unpack(xpk)
 stopifnot(identical(msgpack_simplify(xu[[6]]), 1:10))
 
 # speed test
-# require(microbenchmark)
-# x <- as.list(1:1e7)
-# print(microbenchmark(xpk <- msgpack_pack(x), times=3)) # 0.5 seconds
-# print(microbenchmark(xu <- msgpack_unpack(xpk), times=3)) #2.4 seconds
+require(microbenchmark)
+x <- as.list(1:1e6)
+print(microbenchmark(xpk <- msgpack_pack(x), times=10)) # 50 ms
+print(microbenchmark(xu <- msgpack_unpack(xpk), times=10)) # 150 ms
+stopifnot(identical(xu, x))
+
+# vector input
+x <- 1:1e6
+print(microbenchmark(xpk2 <- msgpack_pack(x), times=10)) # 50 ms
+print(microbenchmark(xu <- msgpack_unpack(xpk2), times=10)) # 150 ms
+stopifnot(identical(msgpack_simplify(xu), x))
+
+# packed list and vector should be identical
+stopifnot(identical(xpk, xpk2))
+
+# vector with NAs
+x <- c(1:3,NA,5)
+xpk <- msgpack_pack(x)
+stopifnot(identical(msgpack_simplify(msgpack_unpack(xpk)),x))
+
+# named vector is serialized to map
+x <- c(1:3); names(x) <- letters[1:3]
+xpk <- msgpack_pack(x)
+stopifnot(identical(msgpack_simplify(msgpack_unpack(xpk)),x))
+
