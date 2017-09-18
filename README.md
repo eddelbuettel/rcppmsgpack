@@ -76,7 +76,8 @@ can be used for bug reports or feature requests.
 
 ### Author 
 
-Dirk Eddelbuettel and Travers Ching
+Dirk Eddelbuettel and [Travers Ching](https://github.com/traversc).
+*Special thanks to [Xun Zhu](https://github.com/w9).*
 
 ### License
 

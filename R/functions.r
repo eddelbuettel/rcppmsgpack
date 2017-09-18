@@ -27,7 +27,9 @@ msgpack_simplify <- function(x) {
     xc <- sapply(x, function(xi) class(xi)[1])
     xcu <- unique(xc)
 
-    if(all(xcu %in% c("logical", "NULL"))) {
+    if(len == 0) {
+        return(x)
+    } else if(all(xcu %in% c("logical", "NULL"))) {
         x[which(xc == "NULL")] <- NA
         return(unlist(x))
     } else if(all(xcu %in% c("character", "NULL"))) {
@@ -138,6 +140,7 @@ msgpackPack <- msgpack_pack
 #' 'MsgPack' Unpack
 #' @description De-serialize a 'MsgPack' message.  Array is converted into List. Map is converted into Map/Data.frame. Extension types are converted into raw vectors with EXT attribute.  Integers, Floats, Strings, Raw and Nil are converted into Integer, Float, Character, Raw and NULL respectively.  
 #' @param message A raw vector containing the message.  
+#' @param simplify Default false.  Should the return object be simplified?  This is generally faster and more memory efficient.  
 #' @return The message pack object(s) converted into R types.  If more than one object exists in the message, a list of class "msgpack_set" containing the objects is returned.  
 #' @examples
 #' x <- msgpack_format(1:10)
@@ -145,8 +148,8 @@ msgpackPack <- msgpack_pack
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
 #' @seealso See examples/tests.r for more examples.  
-msgpack_unpack <- function(message) {
-    c_unpack(message)
+msgpack_unpack <- function(message, simplify=F) {
+    c_unpack(message, simplify)
 }
 
 #' @rdname msgpack_unpack
