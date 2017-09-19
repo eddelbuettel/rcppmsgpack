@@ -5,12 +5,14 @@
 \alias{msgpackUnpack}
 \title{'MsgPack' Unpack}
 \usage{
-msgpack_unpack(message)
+msgpack_unpack(message, simplify = F)
 
-msgpackUnpack(message)
+msgpackUnpack(message, simplify = F)
 }
 \arguments{
 \item{message}{A raw vector containing the message.}
+
+\item{simplify}{Default false.  Should the return object be simplified?  This is generally faster and more memory efficient.}
 }
 \value{
 The message pack object(s) converted into R types.  If more than one object exists in the message, a list of class "msgpack_set" containing the objects is returned.

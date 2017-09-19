@@ -22,8 +22,8 @@ library(RcppMsgPack)
 # Test atomic types
 
 # integer
-xpk <- msgpack_pack(1)
-stopifnot(identical(msgpack_unpack(xpk), 1))
+xpk <- msgpack_pack(1L)
+stopifnot(identical(msgpack_unpack(xpk), 1L))
 
 # double
 xpk <- msgpack_pack(1.54)
@@ -93,26 +93,42 @@ stopifnot(identical(msgpack_simplify(xu[[6]]), 1:10))
 # speed test
 require(microbenchmark)
 x <- as.list(1:1e6)
-print(microbenchmark(xpk <- msgpack_pack(x), times=10)) # 50 ms
+print(microbenchmark(xpk <- msgpack_pack(x), times=10)) # 500 ms
 print(microbenchmark(xu <- msgpack_unpack(xpk), times=10)) # 150 ms
 stopifnot(identical(xu, x))
 
 # vector input
 x <- 1:1e6
 print(microbenchmark(xpk2 <- msgpack_pack(x), times=10)) # 50 ms
-print(microbenchmark(xu <- msgpack_unpack(xpk2), times=10)) # 150 ms
-stopifnot(identical(msgpack_simplify(xu), x))
+print(microbenchmark(xu <- msgpack_unpack(xpk2, simplify=T), times=10)) # 50 ms
+stopifnot(identical(xu, x))
 
 # packed list and vector should be identical
-stopifnot(identical(xpk, xpk2))
+stopifnot(identical(msgpack_simplify(xpk), xpk2))
 
 # vector with NAs
 x <- c(1:3,NA,5)
 xpk <- msgpack_pack(x)
 stopifnot(identical(msgpack_simplify(msgpack_unpack(xpk)),x))
+stopifnot(identical(msgpack_unpack(xpk, simplify=T),x))
 
 # named vector is serialized to map
-x <- c(1:3); names(x) <- letters[1:3]
+x <- c(1:4); names(x) <- c("z",letters[1:3])
 xpk <- msgpack_pack(x)
 stopifnot(identical(msgpack_simplify(msgpack_unpack(xpk)),x))
+stopifnot(identical(msgpack_unpack(xpk, simplify=T),x))
+
+# array length zero
+x <- list()
+xpk <- msgpack_pack(x)
+stopifnot(identical(msgpack_unpack(xpk),x))
+
+# map length zero
+x <- msgpack_map(key=list(), value=list())
+xpk <- msgpack_pack(x)
+stopifnot(identical(msgpack_unpack(xpk),x))
+
+# memory profiling using profvis
+# profvis({x <- msgpack_pack(1:1e7)}, torture=0)
+# profvis({x <- msgpack_unpack(x, simplify=T)}, torture=0)
 
