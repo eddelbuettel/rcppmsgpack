@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 using AnyVector = boost::variant<LogicalVector, IntegerVector, NumericVector, CharacterVector, List>;
 
-bool hasAttribute(const AnyVector &vec, const std::string &attr) {
+bool hasAttribute(AnyVector vec, std::string attr) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec).hasAttribute(attr);
@@ -23,7 +23,7 @@ bool hasAttribute(const AnyVector &vec, const std::string &attr) {
     return false;
 }
 
-CharacterVector attr(const AnyVector &vec, const std::string &attr) {
+CharacterVector attr(AnyVector vec, std::string attr) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec).attr(attr);
@@ -39,7 +39,7 @@ CharacterVector attr(const AnyVector &vec, const std::string &attr) {
     return CharacterVector::create();
 }
 
-void setAttr(AnyVector &vec, const std::string &attr, const CharacterVector &attr_value) {
+void setAttr(AnyVector &vec, std::string attr, CharacterVector attr_value) {
     if(vec.which() == 0) {
             LogicalVector v = boost::get<LogicalVector>(vec);
             v.attr(attr) = attr_value;
@@ -63,7 +63,7 @@ void setAttr(AnyVector &vec, const std::string &attr, const CharacterVector &att
     }
 }
 
-int size(const AnyVector &vec) {
+int size(AnyVector vec) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec).size();
@@ -79,7 +79,7 @@ int size(const AnyVector &vec) {
     return 0;
 }
 
-LogicalVector is_na(const AnyVector &vec) {
+LogicalVector is_na(AnyVector vec) {
     switch(vec.which()) {
         case 0:
             return is_na(boost::get<LogicalVector>(vec));
@@ -95,9 +95,9 @@ LogicalVector is_na(const AnyVector &vec) {
     return LogicalVector::create();
 }
 
-AnyVector sexpToAnyVector(const SEXP &obj) {
+AnyVector RObjectToAnyVector(RObject obj) {
     AnyVector vec;
-    switch(TYPEOF(obj)) {
+    switch(obj.sexp_type()) {
         case LGLSXP:
             vec = LogicalVector(obj);
             break;
@@ -117,7 +117,7 @@ AnyVector sexpToAnyVector(const SEXP &obj) {
     return vec;
 }
 
-SEXP anyVectorToSexp(const AnyVector &vec) {
+RObject anyVectorToRObject(AnyVector vec) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec);

@@ -98,13 +98,13 @@ print(microbenchmark(xu <- msgpack_unpack(xpk), times=10)) # 150 ms
 stopifnot(identical(xu, x))
 
 # vector input
-x <- 1:1e6
+x <- 1:1e7
 print(microbenchmark(xpk2 <- msgpack_pack(x), times=10)) # 50 ms
 print(microbenchmark(xu <- msgpack_unpack(xpk2, simplify=T), times=10)) # 50 ms
 stopifnot(identical(xu, x))
 
 # packed list and vector should be identical
-stopifnot(identical(msgpack_simplify(xpk), xpk2))
+# stopifnot(identical(msgpack_simplify(xpk), xpk2))
 
 # vector with NAs
 x <- c(1:3,NA,5)

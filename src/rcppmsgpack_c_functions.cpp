@@ -19,13 +19,13 @@ std::vector<unsigned char> temp_unsigned_char;
 const double R_INT_MAX = 2147483647;
 
 SEXP c_unpack(std::vector<unsigned char> char_message);
-AnyVector unpackVector(std::vector<msgpack::object> obj_vector, bool const &simplify);
-SEXP unpackVisitor(msgpack::object obj, bool const &simplify);
+AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const &simplify);
+SEXP unpackVisitor(const msgpack::object &obj, bool const &simplify);
 RawVector c_pack(SEXP root_obj);
-void addToPack(SEXP obj, msgpack::packer<std::stringstream>& pkr);
-void packAtomic(AnyVector vec, int j, msgpack::packer<std::stringstream>& pkr);
+void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr);
+void packAtomic(const AnyVector &vec, const int &j, msgpack::packer<std::stringstream>& pkr);
 
-void packAtomic(AnyVector vec, int j, msgpack::packer<std::stringstream>& pkr) {
+void packAtomic(const AnyVector &vec, const int &j, msgpack::packer<std::stringstream>& pkr) {
     switch(vec.which()) {
         case 0:
             temp_bool = boost::get<LogicalVector>(vec)[j];
@@ -46,7 +46,7 @@ void packAtomic(AnyVector vec, int j, msgpack::packer<std::stringstream>& pkr) {
     }
 }
 
-void addToPack(SEXP obj, msgpack::packer<std::stringstream>& pkr) {
+void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
     if(Rf_isVectorList(obj)) {
         List temp_list = List(obj);
         if(temp_list.hasAttribute("class") && (as< std::vector<std::string> >(temp_list.attr("class")))[0] == "map") {
@@ -147,7 +147,7 @@ RawVector c_pack(SEXP root_obj) {
     return bufraw;
 }
 
-AnyVector unpackVector(std::vector<msgpack::object> obj_vector, bool const &simplify) {
+AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const &simplify) {
     bool list_type = false;
     bool numeric_type = false;
     bool integer_type = false;
@@ -245,7 +245,7 @@ AnyVector unpackVector(std::vector<msgpack::object> obj_vector, bool const &simp
     return LogicalVector::create(); //should never reach
 }
 
-SEXP unpackVisitor(msgpack::object obj, bool const &simplify) {
+SEXP unpackVisitor(const msgpack::object &obj, bool const &simplify) {
     if(obj.type == msgpack::type::ARRAY) {
         std::vector<msgpack::object> temp_vector;
         obj.convert(temp_vector);
