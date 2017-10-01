@@ -48,12 +48,37 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// c_timestamp_encode
+RawVector c_timestamp_encode(double seconds, u_int32_t nanoseconds);
+RcppExport SEXP _RcppMsgPack_c_timestamp_encode(SEXP secondsSEXP, SEXP nanosecondsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type seconds(secondsSEXP);
+    Rcpp::traits::input_parameter< u_int32_t >::type nanoseconds(nanosecondsSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_timestamp_encode(seconds, nanoseconds));
+    return rcpp_result_gen;
+END_RCPP
+}
+// c_timestamp_decode
+List c_timestamp_decode(std::vector<unsigned char> v);
+RcppExport SEXP _RcppMsgPack_c_timestamp_decode(SEXP vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<unsigned char> >::type v(vSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_timestamp_decode(v));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RcppMsgPack_arrayEx", (DL_FUNC) &_RcppMsgPack_arrayEx, 0},
     {"_RcppMsgPack_enumEx", (DL_FUNC) &_RcppMsgPack_enumEx, 0},
     {"_RcppMsgPack_c_pack", (DL_FUNC) &_RcppMsgPack_c_pack, 1},
     {"_RcppMsgPack_c_unpack", (DL_FUNC) &_RcppMsgPack_c_unpack, 2},
+    {"_RcppMsgPack_c_timestamp_encode", (DL_FUNC) &_RcppMsgPack_c_timestamp_encode, 2},
+    {"_RcppMsgPack_c_timestamp_decode", (DL_FUNC) &_RcppMsgPack_c_timestamp_decode, 1},
     {NULL, NULL, 0}
 };
 

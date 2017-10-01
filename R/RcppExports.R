@@ -29,3 +29,11 @@ c_unpack <- function(char_message, simplify) {
     .Call(`_RcppMsgPack_c_unpack`, char_message, simplify)
 }
 
+c_timestamp_encode <- function(seconds, nanoseconds) {
+    .Call(`_RcppMsgPack_c_timestamp_encode`, seconds, nanoseconds)
+}
+
+c_timestamp_decode <- function(v) {
+    .Call(`_RcppMsgPack_c_timestamp_decode`, v)
+}
+

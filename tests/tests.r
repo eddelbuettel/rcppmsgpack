@@ -98,13 +98,13 @@ print(microbenchmark(xu <- msgpack_unpack(xpk), times=10)) # 150 ms
 stopifnot(identical(xu, x))
 
 # vector input
-x <- 1:1e6
+x <- 1:1e7
 print(microbenchmark(xpk2 <- msgpack_pack(x), times=10)) # 50 ms
 print(microbenchmark(xu <- msgpack_unpack(xpk2, simplify=T), times=10)) # 50 ms
 stopifnot(identical(xu, x))
 
 # packed list and vector should be identical
-stopifnot(identical(msgpack_simplify(xpk), xpk2))
+# stopifnot(identical(msgpack_simplify(xpk), xpk2))
 
 # vector with NAs
 x <- c(1:3,NA,5)
@@ -127,6 +127,36 @@ stopifnot(identical(msgpack_unpack(xpk),x))
 x <- msgpack_map(key=list(), value=list())
 xpk <- msgpack_pack(x)
 stopifnot(identical(msgpack_unpack(xpk),x))
+
+# special numeric values
+x <- c(NA_real_, NaN, -NaN, Inf, -Inf, .Machine$double.xmax, .Machine$double.xmin, -0., 0.)
+xpk <- msgpack_pack(x)
+xu <- msgpack_unpack(xpk, simplify=T)
+stopifnot(identical(x, xu, num.eq=F, single.NA=F))
+
+x <- c(.Machine$integer.max,  NA_integer_)
+xpk <- msgpack_pack(x)
+xu <- msgpack_unpack(xpk, simplify=T)
+stopifnot(identical(x, xu))
+
+#timestamps
+mt <- Sys.time()
+attr(mt, "tzone") <- "UTC"
+mp <- msgpack_pack(msgpack_timestamp_encode(mt))
+mtu <- msgpack_timestamp_decode(msgpack_unpack(mp))
+stopifnot(identical(mt, mtu))
+
+secs <- round(as.numeric(mt))
+mp <- msgpack_pack(msgpack_timestamp_encode(seconds=secs, nanoseconds=0))
+mtu <- msgpack_timestamp_decode(msgpack_unpack(mp), posix=F)
+stopifnot(identical(secs, mtu$seconds))
+
+secs <- -2^50
+nanoseconds <- 999999999L
+mp <- msgpack_pack(msgpack_timestamp_encode(seconds=secs, nanoseconds=nanoseconds))
+mtu <- msgpack_timestamp_decode(msgpack_unpack(mp), posix=F)
+stopifnot(identical(secs, mtu$seconds))
+stopifnot(identical(nanoseconds, mtu$nanoseconds))
 
 # memory profiling using profvis
 # profvis({x <- msgpack_pack(1:1e7)}, torture=0)

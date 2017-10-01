@@ -5,9 +5,10 @@
 
 using namespace Rcpp;
 
-using AnyVector = boost::variant<LogicalVector, IntegerVector, NumericVector, CharacterVector, List>;
+using AnyVector = boost::variant<LogicalVector, IntegerVector, NumericVector, CharacterVector, RawVector, List>;
 
-bool hasAttribute(AnyVector vec, std::string attr) {
+// while boost::get is considered unsafe, it was faster than the recommended apply visitor approach
+bool hasAttribute(const AnyVector &vec, const std::string &attr) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec).hasAttribute(attr);
@@ -18,12 +19,14 @@ bool hasAttribute(AnyVector vec, std::string attr) {
         case 3:
             return boost::get<CharacterVector>(vec).hasAttribute(attr);
         case 4:
+            return boost::get<RawVector>(vec).hasAttribute(attr);
+        case 5:
             return boost::get<List>(vec).hasAttribute(attr);
     }
     return false;
 }
 
-CharacterVector attr(AnyVector vec, std::string attr) {
+CharacterVector attr(const AnyVector &vec, const std::string &attr) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec).attr(attr);
@@ -34,36 +37,36 @@ CharacterVector attr(AnyVector vec, std::string attr) {
         case 3:
             return boost::get<CharacterVector>(vec).attr(attr);
         case 4:
+            return boost::get<RawVector>(vec).attr(attr);
+        case 5:
             return boost::get<List>(vec).attr(attr);
     }
     return CharacterVector::create();
 }
 
-void setAttr(AnyVector &vec, std::string attr, CharacterVector attr_value) {
+void setAttr(AnyVector &vec, const std::string &attr, const CharacterVector &attr_value) {
     if(vec.which() == 0) {
-            LogicalVector v = boost::get<LogicalVector>(vec);
-            v.attr(attr) = attr_value;
-            vec = v;
+        LogicalVector & v = boost::get<LogicalVector>(vec);
+        v.attr(attr) = attr_value;
     } else if(vec.which() == 1) {
-            IntegerVector v = boost::get<IntegerVector>(vec);
-            v.attr(attr) = attr_value;
-            vec = v;
+        IntegerVector & v = boost::get<IntegerVector>(vec);
+        v.attr(attr) = attr_value;
     } else if(vec.which() == 2) {
-            NumericVector v = boost::get<NumericVector>(vec);
-            v.attr(attr) = attr_value;
-            vec = v;
+        NumericVector & v = boost::get<NumericVector>(vec);
+        v.attr(attr) = attr_value;
     } else if(vec.which() == 3) {
-            CharacterVector v = boost::get<CharacterVector>(vec);
-            v.attr(attr) = attr_value;
-            vec = v;
+        CharacterVector & v = boost::get<CharacterVector>(vec);
+        v.attr(attr) = attr_value;
     } else if(vec.which() == 4) {
-            List v = boost::get<List>(vec);
-            v.attr(attr) = attr_value;
-            vec = v;
+        RawVector & v = boost::get<RawVector>(vec);
+        v.attr(attr) = attr_value;
+    } else if(vec.which() == 5) {
+        List & v = boost::get<List>(vec);
+        v.attr(attr) = attr_value;
     }
 }
 
-int size(AnyVector vec) {
+int size(const AnyVector &vec) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec).size();
@@ -74,12 +77,14 @@ int size(AnyVector vec) {
         case 3:
             return boost::get<CharacterVector>(vec).size();
         case 4:
+            return boost::get<RawVector>(vec).size();
+        case 5:
             return boost::get<List>(vec).size();
     }
     return 0;
 }
 
-LogicalVector is_na(AnyVector vec) {
+LogicalVector is_na(const AnyVector &vec) {
     switch(vec.which()) {
         case 0:
             return is_na(boost::get<LogicalVector>(vec));
@@ -90,12 +95,14 @@ LogicalVector is_na(AnyVector vec) {
         case 3:
             return is_na(boost::get<CharacterVector>(vec));
         case 4:
+            return is_na(boost::get<RawVector>(vec));
+        case 5:
             return is_na(boost::get<List>(vec)); //does this work?
     }
     return LogicalVector::create();
 }
 
-AnyVector sexpToAnyVector(SEXP obj) {
+AnyVector sexpToAnyVector(const SEXP & obj) {
     AnyVector vec;
     switch(TYPEOF(obj)) {
         case LGLSXP:
@@ -110,6 +117,9 @@ AnyVector sexpToAnyVector(SEXP obj) {
         case STRSXP:
             vec = CharacterVector(obj);
             break;
+        case RAWSXP:
+            vec = RawVector(obj);
+            break;
         case VECSXP:
             vec = List(obj);
             break;
@@ -117,7 +127,7 @@ AnyVector sexpToAnyVector(SEXP obj) {
     return vec;
 }
 
-SEXP anyVectorToSexp(AnyVector vec) {
+SEXP anyVectorToSexp(const AnyVector &vec) {
     switch(vec.which()) {
         case 0:
             return boost::get<LogicalVector>(vec);
@@ -128,7 +138,46 @@ SEXP anyVectorToSexp(AnyVector vec) {
         case 3:
             return boost::get<CharacterVector>(vec);
         case 4:
+            return boost::get<RawVector>(vec);
+        case 5:
             return boost::get<List>(vec);
     }
     return LogicalVector::create(); // should never reach
 }
+
+
+int getType(const AnyVector &vec) {
+    switch(vec.which()) {
+        case 0:
+            return LGLSXP;
+        case 1:
+            return INTSXP;
+        case 2:
+            return REALSXP;
+        case 3:
+            return STRSXP;
+        case 4:
+            return RAWSXP;
+        case 5:
+            return VECSXP;
+    }
+    return 0; // should never reach
+}
+
+// SEXP getElement(const AnyVector &vec, int & j) {
+//     switch(vec.which()) {
+//         case 0:
+//             return boost::get<LogicalVector>(vec)[j];
+//         case 1:
+//             return boost::get<IntegerVector>(vec)[j];
+//         case 2:
+//             return boost::get<NumericVector>(vec)[j];
+//         case 3:
+//             return boost::get<CharacterVector>(vec)[j];
+//         case 4:
+//             return boost::get<RawVector>(vec)[j];
+//         case 5:
+//             return boost::get<List>(vec)[j];
+//     }
+//     return LogicalVector::create(); // should never reach
+// }

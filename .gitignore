@@ -11,4 +11,3 @@ Rcpp*.tar.gz
 rebuild.sh
 local
 .DS_Store
-rticle
