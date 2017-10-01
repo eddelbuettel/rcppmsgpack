@@ -25,7 +25,7 @@ know how to set include flags correctly on all architectures supported by R.
 #### Interface functions
 The functions `msgpack_pack` and `msgpack_unpack` allow you to serialize and de-serialize R objects respectively.  `msgpack_format` is a helper function to properly format R objects for input.  `msgpack_simplify` is a helper function to simplify output from MsgPack conversion.  
 
-Msgpack EXT types are converted to raw vectors with EXT attributes containing the extension type.  The extension type must be an integer from 0 to 127.  
+MsgPack EXT types are converted to raw vectors with EXT attributes containing the extension type.  The extension type must be an integer from 0 to 127.  MsgPack Timestamps are an EXT with type -1.  Timestamps can be encoded and decoded from `POSIXct` objects in R to MsgPack format with `msgpack_timestamp_encode` and `msgpack_timestamp_decode`.  
 
 Msgpack Maps are converted to data.frames with additional class "map".  Map objects in R contain key and value list columns and can be simplified to named lists or named vectors.  The helper function `msgpack_map` creates map objects that can be serialized into msgpack.  
 
