@@ -87,16 +87,16 @@ xu <- msgpack_unpack(xpk)
 stopifnot(identical(msgpack_simplify(xu[[6]]), 1:10))
 
 # speed test
-if (require(microbenchmark)) {
+if (requireNamespace("microbenchmark", quietly=TRUE)) {
     x <- as.list(1:1e6)
-    print(microbenchmark(xpk <- msgpack_pack(x), times=10)) # 500 ms
-    print(microbenchmark(xu <- msgpack_unpack(xpk), times=10)) # 150 ms
+    print(microbenchmark::microbenchmark(xpk <- msgpack_pack(x), times=10)) # 500 ms
+    print(microbenchmark::microbenchmark(xu <- msgpack_unpack(xpk), times=10)) # 150 ms
     stopifnot(identical(xu, x))
 
     ## vector input
     x <- 1:1e7
-    print(microbenchmark(xpk2 <- msgpack_pack(x), times=10)) # 50 ms
-    print(microbenchmark(xu <- msgpack_unpack(xpk2, simplify=T), times=10)) # 50 ms
+    print(microbenchmark::microbenchmark(xpk2 <- msgpack_pack(x), times=10)) # 50 ms
+    print(microbenchmark::microbenchmark(xu <- msgpack_unpack(xpk2, simplify=T), times=10)) # 50 ms
     stopifnot(identical(xu, x))
 }
 
