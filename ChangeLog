@@ -1,3 +1,8 @@
+2018-01-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* tests/tests.r (# stopifnot): Make microbenchmark use conditional
+	as the package is in Suggests: 
+
 2017-09-07  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.2.0
