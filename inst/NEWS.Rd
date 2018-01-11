@@ -3,10 +3,15 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
-\section{Changes in version 0.2.2 (2018-01-xx)}{
+\section{Changes in version 0.2.1 (2018-01-xx)}{
   \itemize{
-    \item Use of \pkg{microbenchmark} in the \code{tests/} is now
-    conditional required for Suggests: package [CRAN request]
+    \item Some corrections and update to DESCRIPTION, README.md,
+    msgpack.org.md and vignette (\ghpr{6}).
+    \item Update to \code{c_pack.cpp} and tests (\ghpr{7}).
+    \item More efficient packing of vectors (\ghpr{8}).
+    \item Support for timestamps and NAs (\ghpr{9}).
+    \item Conditional use of \pkg{microbenchmark} in \code{tests/} 
+    as required for Suggests: package [CRAN request] (\ghpr{10}).
   }
 }
 

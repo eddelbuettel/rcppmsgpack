@@ -1,7 +1,55 @@
 2018-01-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* tests/tests.r (# stopifnot): Make microbenchmark use conditional
-	as the package is in Suggests: 
+	as the package is in Suggests:
+
+2017-09-30  Travers Ching  <traversc@gmail.com>
+
+	* README.md: Updated
+
+2017-09-29  Travers Ching  <traversc@gmail.com>
+
+	* R/functions.R: Added MsgPack timestamp and NA handling
+	* R/RcppExports.R: Idem
+	* man/msgpack_timestamp_decode.Rd: Idem
+	* man/msgpack_timestamp_encode.Rd: Idem
+	* src/anyvector.h: Idem
+	* src/anyvector.cpp: Idem
+	* src/rcppmsgpack_c_functions.cpp: Idem
+	* src/RcppExports.cpp: Idem
+	* tests/tests.R: Idem
+
+2017-09-22  Travers Ching  <traversc@gmail.com>
+
+	* src/anyvector.h: Update unpack function
+	* sec/anyvector.cpp: Idem
+	* src/rcppmsgpack_c_functions.cpp: Idem
+	* tests/tests.R: Idem
+
+2017-09-18  Travers Ching  <traversc@gmail.com>
+
+	* R/functions.R: Update to c_pack and additional tests
+	* R/RcppExports.R: Idem
+	* man/msgpack_unpack.Rd: Idem
+	* man/msgpack_timestamp_encode.Rd: Idem
+	* src/anyvector.h: Idem
+	* src/c_pack.cpp: Idem
+	* src/c_unpack.cpp: Idem
+	* src/rcppmsgpack_c_functions.cpp: Idem
+	* src/RcppExports.cpp: Idem
+	* tests/tests.R: Idem
+
+2017-09-13  Travers Ching  <traversc@gmail.com>
+
+	* src/c_pack.cpp: More efficient packing for vectors
+	* tests/tests.r: Corresponding test
+
+2017-09-07  Travers Ching  <traversc@gmail.com>
+
+	* README.md: Updated
+	* msgpack.org.md: Idem
+	* DESCRIPTION: Idem
+	* vignette/vignette.rmd: Idem
 
 2017-09-07  Dirk Eddelbuettel  <edd@debian.org>
 
