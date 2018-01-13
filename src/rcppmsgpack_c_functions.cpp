@@ -173,7 +173,7 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
     bool null_type = false;
     int sum_types = 0;
     if(simplify) {
-        for(int j=0; j<obj_vector.size(); j++) {
+        for(unsigned int j=0; j<obj_vector.size(); j++) {
             switch(obj_vector[j].type) {
                 case msgpack::type::NIL:
                     null_type = true;
@@ -209,21 +209,21 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
         if(sum_types == 1) {
             if(numeric_type && !null_type) {
                 NumericVector v = NumericVector(obj_vector.size());
-                for(int j=0; j<obj_vector.size(); j++) {
+                for(unsigned int j=0; j<obj_vector.size(); j++) {
                     obj_vector[j].convert(temp_double);
                     v[j] = temp_double;
                 }
                 return v;
             } else if(integer_type && !null_type) {
                 IntegerVector v = IntegerVector(obj_vector.size());
-                for(int j=0; j<obj_vector.size(); j++) {
+                for(unsigned int j=0; j<obj_vector.size(); j++) {
                     obj_vector[j].convert(temp_int);
                     v[j] = temp_int;
                 }
                 return v;
             } else if(logical_type) {
                 LogicalVector v = LogicalVector(obj_vector.size());
-                for(int j=0; j<obj_vector.size(); j++) {
+                for(unsigned int j=0; j<obj_vector.size(); j++) {
                     if(obj_vector[j].type == msgpack::type::NIL) {
                         v[j] = NA_LOGICAL;
                     } else {
@@ -234,7 +234,7 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
                 return v;
             } else if(character_type) {
                 CharacterVector v = CharacterVector(obj_vector.size());
-                for(int j=0; j<obj_vector.size(); j++) {
+                for(unsigned int j=0; j<obj_vector.size(); j++) {
                     if(obj_vector[j].type == msgpack::type::NIL) {
                         v[j] = NA_STRING;
                     } else {
@@ -249,7 +249,7 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
     // list type
     // vector size 0 also returns empty list
     List L = List(obj_vector.size());
-    for(int j=0; j<obj_vector.size(); j++) {
+    for(unsigned int j=0; j<obj_vector.size(); j++) {
         L[j] = unpackVisitor(obj_vector[j], simplify);
     }
     return L;
@@ -368,13 +368,13 @@ SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
 RawVector c_timestamp_encode(double seconds, u_int32_t nanoseconds) {
     int64_t secint = round(seconds);
     RawVector rv;
-    if(nanoseconds == 0 & seconds <= 4294967295 & seconds >= 0) { //2^32-1
+    if((nanoseconds == 0) & (seconds <= 4294967295) & (seconds >= 0)) { //2^32-1
         std::vector<unsigned char> msg(4);
         for(int i=0; i<32; i++) {
             if((secint >> i) & 1) msg[(31-i)/8] |= 1 << (i % 8);
         }
         rv = RawVector(msg.begin(), msg.end());
-    } else if(seconds <= 17179869183 & seconds >= 0) { //2^34-1
+    } else if((seconds <= 17179869183) & (seconds >= 0)) { //2^34-1
         std::vector<unsigned char> msg(8);
         for(int i=0; i<34; i++) {
             if((secint >> i) & 1) msg[(63-i)/8] |= 1 << (i % 8);
