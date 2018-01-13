@@ -141,7 +141,7 @@ mt <- Sys.time()
 attr(mt, "tzone") <- "UTC"
 mp <- msgpack_pack(msgpack_timestamp_encode(mt))
 mtu <- msgpack_timestamp_decode(msgpack_unpack(mp))
-stopifnot(identical(mt, mtu))
+stopifnot(all.equal(mt, mtu))           # less stringent than identical and all we can guarantee here
 
 secs <- round(as.numeric(mt))
 mp <- msgpack_pack(msgpack_timestamp_encode(seconds=secs, nanoseconds=0))
