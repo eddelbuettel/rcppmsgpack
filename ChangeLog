@@ -3,6 +3,9 @@
 	* tests/tests.r: Use all.equal for comparison of packed & unpacked
 	timestamp as timestamp resolution not as fine as identical
 
+	* src/rcppmsgpack_c_functions.cpp: Use unsigned int to suppress
+	some signed/unsigned warnings; more explicit parentheses as well
+
 2018-01-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* tests/tests.r (# stopifnot): Make microbenchmark use conditional
