@@ -12,6 +12,8 @@
     \item Support for timestamps and NAs (\ghpr{9}).
     \item Conditional use of \pkg{microbenchmark} in \code{tests/} 
     as required for Suggests: package [CRAN request] (\ghpr{10}).
+    \item Minor polish to tests relaxing comparison of timestamp, and
+    avoiding a few \code{g++} warnings (\ghpr{12} addressing \ghit{11}).
   }
 }
 
