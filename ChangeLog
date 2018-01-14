@@ -2,6 +2,15 @@
 
 	* src/rcppmsgpack_c_functions.cpp (c_timestamp_encode): Make
 	Windows happy and use uint32_t here as well
+	
+	* inst/include/msgpack/v1/adaptor/array_ref.hpp (msgpack): Do not
+	use #pragma to silence compiler as this makes CRAN very unhappy
+        * inst/include/msgpack/v1/adaptor/boost/optional.hpp: Idem
+        * inst/include/msgpack/v1/adaptor/map.hpp: Idem
+        * inst/include/msgpack/v1/adaptor/vector.hpp: Idem
+        * inst/include/msgpack/v1/adaptor/vector_char.hpp: Idem
+        * inst/include/msgpack/v1/adaptor/vector_unsigned_char.hpp: Idem
+        * inst/include/msgpack/v2/x3_parse.hpp: Idem
 
 2018-01-13  Dirk Eddelbuettel  <edd@debian.org>
 

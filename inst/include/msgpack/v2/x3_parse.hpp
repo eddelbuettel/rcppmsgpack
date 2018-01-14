@@ -18,10 +18,10 @@
 
 #include "msgpack/versioning.hpp"
 
-#if __GNUC__ >= 4
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif // __GNUC__ >= 4
+// # if __GNUC__ >= 4
+// # pragma GCC diagnostic push
+// # pragma GCC diagnostic ignored "-Wunused-parameter"
+// # endif // __GNUC__ >= 4
 
 #include <boost/config/warning_disable.hpp>
 #include <boost/spirit/home/x3.hpp>
