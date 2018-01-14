@@ -49,13 +49,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_timestamp_encode
-RawVector c_timestamp_encode(double seconds, u_int32_t nanoseconds);
+RawVector c_timestamp_encode(double seconds, uint32_t nanoseconds);
 RcppExport SEXP _RcppMsgPack_c_timestamp_encode(SEXP secondsSEXP, SEXP nanosecondsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type seconds(secondsSEXP);
-    Rcpp::traits::input_parameter< u_int32_t >::type nanoseconds(nanosecondsSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type nanoseconds(nanosecondsSEXP);
     rcpp_result_gen = Rcpp::wrap(c_timestamp_encode(seconds, nanoseconds));
     return rcpp_result_gen;
 END_RCPP

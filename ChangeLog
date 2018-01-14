@@ -1,3 +1,8 @@
+2018-01-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/rcppmsgpack_c_functions.cpp (c_timestamp_encode): Make
+	Windows happy and use uint32_t here as well
+
 2018-01-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* tests/tests.r: Use all.equal for comparison of packed & unpacked

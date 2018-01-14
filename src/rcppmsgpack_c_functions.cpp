@@ -365,7 +365,7 @@ SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
 // 0xc7 | 12 | -1 | nanoseconds in 32-bit unsigned int | seconds in 64-bit signed int
 //Bit operations: https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit
 // [[Rcpp::export]]
-RawVector c_timestamp_encode(double seconds, u_int32_t nanoseconds) {
+RawVector c_timestamp_encode(double seconds, uint32_t nanoseconds) {
     int64_t secint = round(seconds);
     RawVector rv;
     if((nanoseconds == 0) & (seconds <= 4294967295) & (seconds >= 0)) { //2^32-1
