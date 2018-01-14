@@ -11,7 +11,7 @@ Maps are converted to data.frames with additional class "map".  Map objects in R
 For more information on msgpack types, see [here](https://github.com/msgpack/msgpack/blob/master/spec.md).  
 
 ### Installation:
-1. `Install.packages("RcppMsgPack")`
+1. `install.packages("RcppMsgPack")`
 
 ### Example:
 See `tests/tests.r` for more examples.  
