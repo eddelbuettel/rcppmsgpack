@@ -1,12 +1,12 @@
 Package: RcppMsgPack
 Type: Package
 Title: 'MsgPack' C++ Header Files and Interface Functions for R
-Version: 0.2.0.2
-Date: 2018-01-08
+Version: 0.2.1
+Date: 2018-01-15
 Author: Travers Ching and Dirk Eddelbuettel; the authors and contributors of MsgPack
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Description: This package provides R with both 'MsgPack' header files, and the
- ability to access, create and alter 'MsgPack' objects directly from R.
+Description: 'MsgPack' header files are provided for use by R packages, along 
+ with the ability to access, create and alter 'MsgPack' objects directly from R.
  'MsgPack' is an efficient binary serialization format. It lets you exchange
  data among multiple languages like 'JSON' but it is faster and smaller.
  Small integers are encoded into a single byte, and typical short strings

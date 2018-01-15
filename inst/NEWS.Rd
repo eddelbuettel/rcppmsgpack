@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
-\section{Changes in version 0.2.1 (2018-01-xx)}{
+\section{Changes in version 0.2.1 (2018-01-15)}{
   \itemize{
     \item Some corrections and update to DESCRIPTION, README.md,
     msgpack.org.md and vignette (\ghpr{6}).
@@ -25,8 +25,8 @@
     msgpack_map, msgpack_pack, msgpack_simplify, mgspack_unpack (\ghpr{4})
     \item New R functions also available as msgpackFormat, msgpackMap,
     msgpackPack, msgpackSimplify, mgspackUnpack (\ghpr{4})
-    \item New vignette (\ghpr{4})
-    \item New tests (\ghpr{4})
+    \item New vignette and new tests (\ghpr{4}).
+    \item Some post-processing and polishing (\ghpr{5}).
   }
 }
 
