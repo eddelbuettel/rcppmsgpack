@@ -2,6 +2,8 @@
 
 	* DESCRIPTION (Date, Version): Release 0.2.1
 
+	* inst/COPYRIGHTS (Copyright): Added two entries [CRAN request]
+
 2018-01-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/rcppmsgpack_c_functions.cpp (c_timestamp_encode): Make
