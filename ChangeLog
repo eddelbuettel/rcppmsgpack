@@ -3,6 +3,7 @@
 	* DESCRIPTION (Date, Version): Release 0.2.1
 
 	* inst/COPYRIGHTS (Copyright): Added two entries [CRAN request]
+	* inst/AUTHORS: Also added here
 
 2018-01-14  Dirk Eddelbuettel  <edd@debian.org>
 
