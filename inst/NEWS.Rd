@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
+\section{Changes in version 0.2.2 (2018-05-06)}{
+  \itemize{
+    \item Apply a \code{static_cast} from upstream to suppress a warning
+    from \code{g++-8.1} as requested by CRAN.
+  }
+}
+
 \section{Changes in version 0.2.1 (2018-01-15)}{
   \itemize{
     \item Some corrections and update to DESCRIPTION, README.md,

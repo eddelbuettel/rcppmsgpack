@@ -1,3 +1,10 @@
+2018-05-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): Release 0.2.2
+
+	* inst/include/msgpack/v1/object.hpp (<<): Carry over a static_cast<>
+	from upstream to suppress a new warning from g++-8.1 [CRAN request]
+
 2018-01-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Release 0.2.1
