@@ -29,7 +29,7 @@ MsgPack EXT types are converted to raw vectors with EXT attributes containing th
 
 Msgpack Maps are converted to data.frames with additional class "map".  Map objects in R contain key and value list columns and can be simplified to named lists or named vectors.  The helper function `msgpack_map` creates map objects that can be serialized into msgpack.  
 
-![flowchart](https://raw.githubusercontent.com/traversc/msgpack2R/master/vignettes/msgpack_flowchart.png "Conversion flowchart")
+![flowchart](https://github.com/eddelbuettel/rcppmsgpack/raw/master/vignettes/msgpack_flowchart.png "Conversion flowchart")
 *A flowchart describing the conversion of R objects into msgpack objects and back.*
 
 For more information on msgpack types, see [here](https://github.com/msgpack/msgpack/blob/master/spec.md).  
