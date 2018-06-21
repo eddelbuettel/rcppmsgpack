@@ -11,56 +11,54 @@
 
 using namespace Rcpp;
 
-bool temp_bool;
-double temp_double;
-int temp_int;
-std::vector<int> temp_int_vec;
-std::vector<double> temp_double_vec;
-std::string temp_string;
-std::vector<unsigned char> temp_unsigned_char;
-
 const double R_INT_MAX = 2147483647;
 const double R_INT_MIN = -2147483648;
 
 SEXP c_unpack(std::vector<unsigned char> char_message);
-AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const &simplify);
-SEXP unpackVisitor(const msgpack::object &obj, bool const &simplify);
+AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const simplify);
+SEXP unpackVisitor(const msgpack::object &obj, bool const simplify);
 RawVector c_pack(SEXP root_obj);
-void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr);
-void packElement(const AnyVector &vec, const LogicalVector & navec, const int &j, msgpack::packer<std::stringstream>& pkr);
+template <typename STREAM> void addToPack(const SEXP &obj, msgpack::packer<STREAM>& pkr);
+template <typename STREAM> void packElement(const AnyVector &vec, const LogicalVector & navec, const int j, msgpack::packer<STREAM>& pkr);
 
-void packElement(const AnyVector & vec, const LogicalVector & navec, const int & j, msgpack::packer<std::stringstream>& pkr) {
+template <typename STREAM> void packElement(const AnyVector & vec, const LogicalVector & navec, const int j, msgpack::packer<STREAM>& pkr) {
+    bool temp_bool;
+    double temp_double;
+    int temp_int;
+    std::string temp_string;
+    
     switch(getType(vec)) {
-        case LGLSXP:
-            if(navec[j]) {
-                pkr.pack_nil();
-            } else {
-                temp_bool = boost::get<LogicalVector>(vec)[j];
-                pkr.pack(temp_bool);
-            }
-            break;
-        case INTSXP:
-            temp_int = boost::get<IntegerVector>(vec)[j];
-            pkr.pack(temp_int);
-            break;
-        case REALSXP:
-            temp_double = boost::get<NumericVector>(vec)[j];
-            pkr.pack(temp_double);
-            break;
-        case STRSXP:
-            if(navec[j]) {
-                pkr.pack_nil();
-            } else {
-                temp_string = boost::get<CharacterVector>(vec)[j];
-                pkr.pack(temp_string);
-            }
-            break;
-        case VECSXP:
-            addToPack(boost::get<List>(vec)[j], pkr);
+    case LGLSXP:
+        if(navec[j]) {
+            pkr.pack_nil();
+        } else {
+            temp_bool = boost::get<LogicalVector>(vec)[j];
+            pkr.pack(temp_bool);
+        }
+        break;
+    case INTSXP:
+        temp_int = boost::get<IntegerVector>(vec)[j];
+        pkr.pack(temp_int);
+        // pkr.pack( as< std::vector<int> >(boost::get<IntegerVector>(vec))[j] );
+        break;
+    case REALSXP:
+        temp_double = boost::get<NumericVector>(vec)[j];
+        pkr.pack(temp_double);
+        break;
+    case STRSXP:
+        if(navec[j]) {
+            pkr.pack_nil();
+        } else {
+            temp_string = boost::get<CharacterVector>(vec)[j];
+            pkr.pack(temp_string);
+        }
+        break;
+    case VECSXP:
+        addToPack(boost::get<List>(vec)[j], pkr);
     }
 }
 
-void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
+template <typename STREAM> void addToPack(const SEXP &obj, msgpack::packer<STREAM>& pkr) {
     if(Rf_isVectorList(obj)) {
         List temp_list = List(obj);
         // Map
@@ -76,7 +74,7 @@ void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
                 packElement(key, nakey, j, pkr);
                 packElement(value, navalue, j, pkr);
             }
-        // Also Map
+            // Also Map
         } else if(temp_list.hasAttribute("names")) {
             CharacterVector keys = temp_list.names();
             LogicalVector nakeys = is_na(keys);
@@ -89,7 +87,7 @@ void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
                 }
                 addToPack(temp_list[j], pkr);
             }
-        // Array
+            // Array
         } else {
             List temp_list = List(obj);
             pkr.pack_array(temp_list.size());
@@ -107,11 +105,11 @@ void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
             size_t ext_l = rv.size();
             pkr.pack_ext(ext_l, ext_type);
             pkr.pack_ext_body(rvv.data(), ext_l);
-        // BIN
+            // BIN
         } else {
             pkr.pack(as< std::vector<unsigned char> >(obj));
         }
-    // NIL
+        // NIL
     } else if(TYPEOF(obj) == NILSXP) {
         pkr.pack_nil();
     } else {
@@ -131,7 +129,7 @@ void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
                 }
                 packElement(vec, navec, j, pkr);
             }
-        // Array and atomic types
+            // Array and atomic types
         } else {
             if(vec_size != 1) {
                 pkr.pack_array(vec_size);
@@ -145,26 +143,39 @@ void addToPack(const SEXP &obj, msgpack::packer<std::stringstream>& pkr) {
 
 // [[Rcpp::export]]
 RawVector c_pack(SEXP root_obj) {
-    std::stringstream buffer;
-    msgpack::packer<std::stringstream> pk(&buffer);
+    //std::stringstream buffer;
+    // msgpack::packer<std::stringstream> pk(&buffer);
+    msgpack::sbuffer sbuf;
+    msgpack::packer<msgpack::sbuffer> pk(&sbuf);
     if(Rf_isVectorList(root_obj)) {
         List root_list = List(root_obj);
         if(root_list.hasAttribute("class") && (as< std::vector<std::string> >(root_list.attr("class")))[0] == "msgpack_set") {
             for(int i=0; i<root_list.size(); i++) {
                 addToPack(root_list[i], pk);
             }
-            std::string bufstr = buffer.str();
-            RawVector bufraw(bufstr.begin(), bufstr.end());
+            // std::string bufstr = buffer.str();
+            //RawVector bufraw(bufstr.begin(), bufstr.end());
+            RawVector bufraw(sbuf.data(), sbuf.data()+sbuf.size());
             return bufraw;
         }
     }
     addToPack(root_obj, pk);
-    std::string bufstr = buffer.str();
-    RawVector bufraw(bufstr.begin(), bufstr.end());
+    // std::string bufstr = buffer.str();
+    // RawVector bufraw(bufstr.begin(), bufstr.end());
+    RawVector bufraw(sbuf.data(), sbuf.data()+sbuf.size());
     return bufraw;
 }
 
-AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const &simplify) {
+AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const simplify) {
+    
+    // reusable objects for converting from msgpack::object
+    bool temp_bool;
+    double temp_double;
+    int temp_int;
+    std::string temp_string;
+    // std::vector<unsigned char> temp_unsigned_char;
+    
+    // variables for determining vector type during unpacking
     bool list_type = false;
     bool numeric_type = false;
     bool integer_type = false;
@@ -172,34 +183,35 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
     bool character_type = false;
     bool null_type = false;
     int sum_types = 0;
+    
     if(simplify) {
-        for(unsigned int j=0; j<obj_vector.size(); j++) {
+        for(int j=0; j<obj_vector.size(); j++) {
             switch(obj_vector[j].type) {
-                case msgpack::type::NIL:
-                    null_type = true;
-                    break;
-                case msgpack::type::BOOLEAN:
-                    logical_type = true;
-                    break;
-                case msgpack::type::POSITIVE_INTEGER:
-                case msgpack::type::NEGATIVE_INTEGER:
-                    obj_vector[j].convert(temp_double);
-                    if(temp_double <= R_INT_MAX && temp_double >= R_INT_MIN) {
-                        integer_type = true;
-                    } else {
-                        numeric_type = true;
-                    }
-                    break;
-                case msgpack::type::FLOAT32:
-                case msgpack::type::FLOAT64:
+            case msgpack::type::NIL:
+                null_type = true;
+                break;
+            case msgpack::type::BOOLEAN:
+                logical_type = true;
+                break;
+            case msgpack::type::POSITIVE_INTEGER:
+            case msgpack::type::NEGATIVE_INTEGER:
+                obj_vector[j].convert(temp_double);
+                if(temp_double <= R_INT_MAX && temp_double >= R_INT_MIN) {
+                    integer_type = true;
+                } else {
                     numeric_type = true;
-                    break;
-                case msgpack::type::STR:
-                    character_type = true;
-                    break;
-                default: //bin, ext, array, map
-                    list_type = true;
-                    break;
+                }
+                break;
+            case msgpack::type::FLOAT32:
+            case msgpack::type::FLOAT64:
+                numeric_type = true;
+                break;
+            case msgpack::type::STR:
+                character_type = true;
+                break;
+            default: //bin, ext, array, map
+                list_type = true;
+            break;
             }
             sum_types = (numeric_type || integer_type) + logical_type + character_type + list_type;
             if(list_type) break;
@@ -209,21 +221,21 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
         if(sum_types == 1) {
             if(numeric_type && !null_type) {
                 NumericVector v = NumericVector(obj_vector.size());
-                for(unsigned int j=0; j<obj_vector.size(); j++) {
+                for(int j=0; j<obj_vector.size(); j++) {
                     obj_vector[j].convert(temp_double);
                     v[j] = temp_double;
                 }
                 return v;
             } else if(integer_type && !null_type) {
                 IntegerVector v = IntegerVector(obj_vector.size());
-                for(unsigned int j=0; j<obj_vector.size(); j++) {
+                for(int j=0; j<obj_vector.size(); j++) {
                     obj_vector[j].convert(temp_int);
                     v[j] = temp_int;
                 }
                 return v;
             } else if(logical_type) {
                 LogicalVector v = LogicalVector(obj_vector.size());
-                for(unsigned int j=0; j<obj_vector.size(); j++) {
+                for(int j=0; j<obj_vector.size(); j++) {
                     if(obj_vector[j].type == msgpack::type::NIL) {
                         v[j] = NA_LOGICAL;
                     } else {
@@ -234,7 +246,7 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
                 return v;
             } else if(character_type) {
                 CharacterVector v = CharacterVector(obj_vector.size());
-                for(unsigned int j=0; j<obj_vector.size(); j++) {
+                for(int j=0; j<obj_vector.size(); j++) {
                     if(obj_vector[j].type == msgpack::type::NIL) {
                         v[j] = NA_STRING;
                     } else {
@@ -249,13 +261,13 @@ AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool cons
     // list type
     // vector size 0 also returns empty list
     List L = List(obj_vector.size());
-    for(unsigned int j=0; j<obj_vector.size(); j++) {
+    for(int j=0; j<obj_vector.size(); j++) {
         L[j] = unpackVisitor(obj_vector[j], simplify);
     }
     return L;
 }
 
-SEXP unpackVisitor(const msgpack::object &obj, bool const &simplify) {
+SEXP unpackVisitor(const msgpack::object &obj, bool const simplify) {
     if(obj.type == msgpack::type::ARRAY) {
         std::vector<msgpack::object> temp_vector;
         obj.convert(temp_vector);
@@ -295,38 +307,46 @@ SEXP unpackVisitor(const msgpack::object &obj, bool const &simplify) {
         rv.attr("EXT") = IntegerVector::create(vtype);
         return rv;
     } else {
+        
+        // reusable objects for converting from msgpack::object
+        bool temp_bool;
+        double temp_double;
+        int temp_int;
+        std::string temp_string;
+        std::vector<unsigned char> temp_unsigned_char;
+        
         switch (obj.type) {
-            case msgpack::type::NIL:
-                // std::cout << "nil" << std::endl;
-                return R_NilValue;
-            case msgpack::type::BOOLEAN:
-                // std::cout << "boolean" << std::endl;
-                obj.convert(temp_bool);
-                return wrap(temp_bool);
-            case msgpack::type::POSITIVE_INTEGER:
-            case msgpack::type::NEGATIVE_INTEGER:
-                // std::cout << "integer" << std::endl;
-                obj.convert(temp_double);
-                if(temp_double <= R_INT_MAX && temp_double >= R_INT_MIN) {
-                    obj.convert(temp_int);
-                    return wrap(temp_int);
-                } else {
-                    return wrap(temp_double);
-                }
-            case msgpack::type::FLOAT32:
-            case msgpack::type::FLOAT64:
-                // std::cout << "float" << std::endl;
-                obj.convert(temp_double);
+        case msgpack::type::NIL:
+            // std::cout << "nil" << std::endl;
+            return R_NilValue;
+        case msgpack::type::BOOLEAN:
+            // std::cout << "boolean" << std::endl;
+            obj.convert(temp_bool);
+            return wrap(temp_bool);
+        case msgpack::type::POSITIVE_INTEGER:
+        case msgpack::type::NEGATIVE_INTEGER:
+            // std::cout << "integer" << std::endl;
+            obj.convert(temp_double);
+            if(temp_double <= R_INT_MAX && temp_double >= R_INT_MIN) {
+                obj.convert(temp_int);
+                return wrap(temp_int);
+            } else {
                 return wrap(temp_double);
-            case msgpack::type::STR:
-                // std::cout << "string" << std::endl;
-                obj.convert(temp_string);
-                return wrap(temp_string);
-            case msgpack::type::BIN:
-                obj.convert(temp_unsigned_char);
-                return RawVector(temp_unsigned_char.begin(), temp_unsigned_char.end());
-            default:
-                break;
+            }
+        case msgpack::type::FLOAT32:
+        case msgpack::type::FLOAT64:
+            // std::cout << "float" << std::endl;
+            obj.convert(temp_double);
+            return wrap(temp_double);
+        case msgpack::type::STR:
+            // std::cout << "string" << std::endl;
+            obj.convert(temp_string);
+            return wrap(temp_string);
+        case msgpack::type::BIN:
+            obj.convert(temp_unsigned_char);
+            return RawVector(temp_unsigned_char.begin(), temp_unsigned_char.end());
+        default:
+            break;
         }
     }
     return LogicalVector::create(); //should never reach
@@ -336,22 +356,28 @@ SEXP unpackVisitor(const msgpack::object &obj, bool const &simplify) {
 // [[Rcpp::export]]
 SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
     // std::vector<unsigned char> char_message = as< std::vector<unsigned char> >(raw_message); // cast from RawVector
-    std::string message(char_message.begin(), char_message.end());
+    // std::string message(char_message.begin(), char_message.end());
     // msgpack::object_handle oh = msgpack::unpack(message.data(), message.size());
     //msgpack::object_handle oh;
+    
     std::size_t off = 0;
-    std::size_t len = message.size();
+    std::size_t len = char_message.size();
+    char* mdata = reinterpret_cast<char*>(char_message.data());
     // const char* dat = ss.str().data();
-    List L = List(0);
+    std::vector<SEXP> L(0);
     while(off != len) {
         msgpack::object_handle oh;
-        msgpack::unpack(oh, message.data(), len, off);
+        msgpack::unpack(oh, mdata, len, off);
         msgpack::object obj = oh.get();
         L.push_back(unpackVisitor(obj, simplify));
     }
     if(L.size() != 1) {
-        L.attr("class") = "msgpack_set";
-        return L;
+        List LL = List(L.size());
+        for(uint i=0; i<L.size(); i++) {
+            LL[i] = L[i];
+        }
+        LL.attr("class") = "msgpack_set";
+        return LL;
     }
     return L[0];
     // msgpack::type::variant v = oh.get().as<msgpack::type::variant>();
@@ -365,16 +391,16 @@ SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
 // 0xc7 | 12 | -1 | nanoseconds in 32-bit unsigned int | seconds in 64-bit signed int
 //Bit operations: https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit
 // [[Rcpp::export]]
-RawVector c_timestamp_encode(double seconds, uint32_t nanoseconds) {
+RawVector c_timestamp_encode(double seconds, u_int32_t nanoseconds) {
     int64_t secint = round(seconds);
     RawVector rv;
-    if((nanoseconds == 0) & (seconds <= 4294967295) & (seconds >= 0)) { //2^32-1
+    if(nanoseconds == 0 & seconds <= 4294967295 & seconds >= 0) { //2^32-1
         std::vector<unsigned char> msg(4);
         for(int i=0; i<32; i++) {
             if((secint >> i) & 1) msg[(31-i)/8] |= 1 << (i % 8);
         }
         rv = RawVector(msg.begin(), msg.end());
-    } else if((seconds <= 17179869183) & (seconds >= 0)) { //2^34-1
+    } else if(seconds <= 17179869183 & seconds >= 0) { //2^34-1
         std::vector<unsigned char> msg(8);
         for(int i=0; i<34; i++) {
             if((secint >> i) & 1) msg[(63-i)/8] |= 1 << (i % 8);

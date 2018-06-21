@@ -202,3 +202,98 @@ msgpack_timestamp_decode <- function(x, posix=T, tz="UTC") {
 
 #' @rdname msgpack_timestamp_decode
 msgpackTimestampDecode <- msgpack_timestamp_decode
+
+#' 'MsgPack' write
+#' @description A helper function to serialize an object and write it to a file, or a connection.
+#' @param ... Serializable R objects. 
+#' @param msg Message to write to file.  If not NULL and a raw vector, write it instead of the R objects.  Default: NULL.
+#' @param file A connection, or a string describing the file or pipe to write to, depending on the mode.  
+#' @param mode One of "auto", "file", "gzip" or "pipe".  If "auto", detects based on the file string (any space == pipe, ".gz" == gzip, file otherwise).  Ignored if file is a connection.  
+#' @examples
+#' tmp <- tempfile(fileext=".gz")
+#' msgpack_write(1:10, file=tmp)
+#' x <- msgpack_read(tmp, simplify=TRUE)
+msgpack_write <- function(..., msg=NULL, file, mode="auto") {
+    if(is.null(msg)) {
+        msg <- msgpack_pack(...)
+    }
+    stopifnot("raw" %in% class(msg))
+    if("connection" %in% class(file)) {
+        con <- file
+    } else if(mode=="auto") {
+        if(grepl("\\s", file)) {
+            con <- pipe(file, open="wb")
+        } else if(grepl("\\.gz$", file)) {
+            con <- gzfile(file, open="wb")
+        } else {
+            con <- file(file, open="wb")
+        }
+    } else if(mode=="gzip") {
+        con <- gzfile(file, open="wb")
+    } else if(mode=="pipe") {
+        con <- pipe(file, open="wb")
+    } else {
+        con <- file(file, open="wb")
+    }
+    writeBin(msg, con=con, useBytes=T)
+    close(con)
+    invisible(NULL)
+}
+
+#' @rdname msgpack_write
+msgpackWrite <- msgpack_write
+
+#' 'MsgPack' read
+#' @description A helper function to de-serialize an object read from a file or a connection.
+#' @param file A connection, or a string describing the file or pipe to write to, depending on the mode.  
+#' @param simplify Passed to msgpack_unpack.  Default: FALSE.  
+#' @param mode One of "auto", "file", "gzip" or "pipe".  If "auto", detects based on the file string (any space == pipe, ".gz" == gzip, file otherwise).  Ignored if file is a connection.
+#' @param nbytes If reading from a pipe or gzip, how many bytes to read at a time.  Default: 16777216
+#' @examples
+#' tmp <- tempfile(fileext=".gz")
+#' msgpack_write(1:10, file=tmp)
+#' x <- msgpack_read(tmp, simplify=TRUE)
+msgpack_read <- function(file, simplify=F, mode="auto", nbytes=16777216) {
+    is_file <- F
+    if("connection" %in% class(file)) {
+        con <- file
+    } else if(mode=="auto") {
+        if(grepl("\\s", file)) {
+            con <- pipe(file, open="rb")
+        } else if(grepl("\\.gz$", file)) {
+            con <- gzfile(file, open="rb")
+        } else {
+            is_file <- T
+            con <- file(file, open="rb")
+            file_size <- file.info(file)$size
+        }
+    } else if(mode=="gzip") {
+        con <- gzfile(file, open="rb")
+    } else if(mode=="pipe") {
+        con <- pipe(file, open="rb")
+    } else {
+        is_file <- T
+        con <- file(file, open="rb")
+        file_size <- file.info(file)$size
+    }
+    
+    if(is_file) {
+        bin <- readBin(con = con, what="raw", n=file_size)
+    } else {
+        bin_list <- list()
+        i <- 1
+        bin_list[[i]] <- readBin(con = con, what="raw", n=nbytes)
+        while(length(bin_list[[i]]) != 0) {
+            i <- i + 1
+            bin_list[[i]] <- readBin(con = con, what="raw", n=nbytes)
+        }
+        bin <- do.call(c, bin_list)
+    }
+    close(con)
+    msgpack_unpack(bin, simplify=simplify)
+}
+
+#' @rdname msgpack_read
+msgpackRead <- msgpack_read
+
+
