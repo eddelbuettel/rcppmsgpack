@@ -159,3 +159,24 @@ stopifnot(identical(nanoseconds, mtu$nanoseconds))
 # profvis({x <- msgpack_pack(1:1e7)}, torture=0)
 # profvis({x <- msgpack_unpack(x, simplify=T)}, torture=0)
 
+##### msgpack_write/read
+# pipe -- depends on OS
+if(F) {
+    wcon <- "zstd --format=zstd -f -3 -T4 -o /tmp/temp.mp.zstd"
+    rcon <- "zstd --format=zstd -d -c -T4 /tmp/temp.mp.zstd"
+    msgpack_write(1:1e7, file=wcon)
+    xu <- msgpack_read(file=rcon, simplify=T)
+    stopifnot(identical(1:1e7, xu))
+}
+
+# gzfile
+tmp <- tempfile(fileext = ".mp.gz")
+msgpack_write(1:1e7, file=tmp)
+xu <- msgpack_read(file=tmp, simplify=T)
+stopifnot(identical(1:1e7, xu))
+
+# file 
+tmp <- tempfile(fileext = ".mp")
+msgpack_write(1:1e7, file=tmp)
+xu <- msgpack_read(file=tmp, simplify=T)
+stopifnot(identical(1:1e7, xu))

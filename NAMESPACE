@@ -3,4 +3,5 @@ importFrom("Rcpp", "evalCpp")
 export("msgpack_format", "msgpack_map", "msgpack_pack", "msgpack_simplify", "msgpack_unpack",
        "msgpackFormat", "msgpackMap", "msgpackPack", "msgpackSimplify", "msgpackUnpack",
        "msgpack_timestamp_encode", "msgpackTimestampEncode", "msgpack_timestamp_decode", "msgpackTimestampDecode",
+       "msgpack_write", "msgpackWrite", "msgpack_read", "msgpackRead",
        "arrayEx", "enumEx")
