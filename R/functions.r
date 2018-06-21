@@ -296,3 +296,4 @@ msgpack_read <- function(file, simplify=F, mode="auto", nbytes=16777216) {
 #' @rdname msgpack_read
 msgpackRead <- msgpack_read
 
+
