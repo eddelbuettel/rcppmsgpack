@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
+\section{Changes in version 0.2.3 (2018-07-xx)}{
+  \itemize{
+    \item New functions \code{msgpack_read} and \code{msgpack_write} for
+    efficient direct access to MessagePackage content from files (\ghpr{13}).
+  }
+}
+
 \section{Changes in version 0.2.2 (2018-05-06)}{
   \itemize{
     \item Apply a \code{static_cast} from upstream to suppress a warning

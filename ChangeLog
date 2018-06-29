@@ -1,3 +1,22 @@
+2018-06-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): Roll minor release
+
+	* src/example1.cpp (arrayEx): Minor update from upstream to suppress
+	a compiler warning about potentially unintialzed object
+
+	* src/rcppmsgpack_c_functions.cpp (unpackVector): Change several
+	indices to unsigned int, and parentheses to two logical expressions
+
+2018-06-21  Travers Ching  <traversc@gmail.com>
+
+	* src/rcppmsgpack_c_functions.cpp: Adding msgpack_read and
+	msgpack_write plus other small improvements
+	* R/functions.R: Idem
+	* man/msgpack_read.Rd: Documentation
+	* man/msgpack_write.Rd: Idem
+	* tests/tests.r: New tests
+
 2018-05-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Release 0.2.2
