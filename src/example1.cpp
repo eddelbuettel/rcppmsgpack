@@ -26,12 +26,10 @@ bool arrayEx() {
     // deserialize the buffer into msgpack::object instance.
     std::string str(buffer.str());
 
-    msgpack::unpacked result;
-
-    msgpack::unpack(result, str.data(), str.size());
+    msgpack::object_handle oh = msgpack::unpack(str.data(), str.size());
 
     // deserialized object is valid during the msgpack::unpacked instance alive.
-    msgpack::object deserialized = result.get();
+    msgpack::object deserialized = oh.get();
 
     // msgpack::object supports ostream.
     Rcpp::Rcout << deserialized << std::endl;
