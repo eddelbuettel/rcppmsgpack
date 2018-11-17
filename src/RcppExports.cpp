@@ -26,7 +26,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_pack
-RawVector c_pack(SEXP root_obj);
+Rcpp::RawVector c_pack(SEXP root_obj);
 RcppExport SEXP _RcppMsgPack_c_pack(SEXP root_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -49,7 +49,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_timestamp_encode
-RawVector c_timestamp_encode(double seconds, uint32_t nanoseconds);
+Rcpp::RawVector c_timestamp_encode(double seconds, uint32_t nanoseconds);
 RcppExport SEXP _RcppMsgPack_c_timestamp_encode(SEXP secondsSEXP, SEXP nanosecondsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -61,7 +61,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_timestamp_decode
-List c_timestamp_decode(std::vector<unsigned char> v);
+Rcpp::List c_timestamp_decode(std::vector<unsigned char> v);
 RcppExport SEXP _RcppMsgPack_c_timestamp_decode(SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

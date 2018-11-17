@@ -8,7 +8,7 @@
     \item New functions \code{msgpack_read} and \code{msgpack_write} for
     efficient direct access to MessagePackage content from files
     (\ghpr{13}).
-    \item Several small internal code polishes to smooth compilation
+    \item Several internal code polishes to smooth compilation
   }
 }
 
