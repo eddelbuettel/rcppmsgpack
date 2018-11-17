@@ -8,6 +8,7 @@
 #include <map>
 #include <Rcpp.h>
 #include <cmath>
+#include <cstdint>
 
 using namespace Rcpp;
 
@@ -62,7 +63,7 @@ template <typename STREAM> void addToPack(const SEXP &obj, msgpack::packer<STREA
     if(Rf_isVectorList(obj)) {
         List temp_list = List(obj);
         // Map
-        if(temp_list.hasAttribute("class") && (as< std::vector<std::string> >(temp_list.attr("class")))[0] == "map") {
+        if(temp_list.hasAttribute("class") && (Rcpp::as< std::vector<std::string> >(temp_list.attr("class")))[0] == "map") {
             // std::cout << "map:" << std::endl;
             AnyVector key = sexpToAnyVector(temp_list[0]);
             AnyVector value = sexpToAnyVector(temp_list[1]);
@@ -83,7 +84,7 @@ template <typename STREAM> void addToPack(const SEXP &obj, msgpack::packer<STREA
                 if(nakeys[j]) {
                     pkr.pack_nil();
                 } else {
-                    pkr.pack(as<std::string>(keys[j]));
+                    pkr.pack(Rcpp::as<std::string>(keys[j]));
                 }
                 addToPack(temp_list[j], pkr);
             }
@@ -99,15 +100,15 @@ template <typename STREAM> void addToPack(const SEXP &obj, msgpack::packer<STREA
         RawVector rv = RawVector(obj);
         // EXT
         if(rv.hasAttribute("EXT")) {
-            std::vector<unsigned char> rvvu = as< std::vector<unsigned char> >(obj);
+            std::vector<unsigned char> rvvu = Rcpp::as< std::vector<unsigned char> >(obj);
             std::vector<char> rvv = std::vector<char>(rvvu.begin(), rvvu.end());
-            int8_t ext_type = static_cast<int8_t> (as<std::vector<int> >(rv.attr("EXT"))[0]);
+            int8_t ext_type = static_cast<int8_t> (Rcpp::as<std::vector<int> >(rv.attr("EXT"))[0]);
             size_t ext_l = rv.size();
             pkr.pack_ext(ext_l, ext_type);
             pkr.pack_ext_body(rvv.data(), ext_l);
             // BIN
         } else {
-            pkr.pack(as< std::vector<unsigned char> >(obj));
+            pkr.pack(Rcpp::as< std::vector<unsigned char> >(obj));
         }
         // NIL
     } else if(TYPEOF(obj) == NILSXP) {
@@ -125,7 +126,7 @@ template <typename STREAM> void addToPack(const SEXP &obj, msgpack::packer<STREA
                 if(nakey[j]) {
                     pkr.pack_nil();
                 } else {
-                    pkr.pack(as<std::string>(key[j]));
+                    pkr.pack(Rcpp::as<std::string>(key[j]));
                 }
                 packElement(vec, navec, j, pkr);
             }
@@ -149,7 +150,7 @@ RawVector c_pack(SEXP root_obj) {
     msgpack::packer<msgpack::sbuffer> pk(&sbuf);
     if(Rf_isVectorList(root_obj)) {
         List root_list = List(root_obj);
-        if(root_list.hasAttribute("class") && (as< std::vector<std::string> >(root_list.attr("class")))[0] == "msgpack_set") {
+        if(root_list.hasAttribute("class") && (Rcpp::as< std::vector<std::string> >(root_list.attr("class")))[0] == "msgpack_set") {
             for(int i=0; i<root_list.size(); i++) {
                 addToPack(root_list[i], pk);
             }
@@ -391,7 +392,7 @@ SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
 // 0xc7 | 12 | -1 | nanoseconds in 32-bit unsigned int | seconds in 64-bit signed int
 //Bit operations: https://stackoverflow.com/questions/47981/how-do-you-set-clear-and-toggle-a-single-bit
 // [[Rcpp::export]]
-RawVector c_timestamp_encode(double seconds, u_int32_t nanoseconds) {
+RawVector c_timestamp_encode(double seconds, uint32_t nanoseconds) {
     int64_t secint = round(seconds);
     RawVector rv;
     if ((nanoseconds == 0) & (seconds <= 4294967295) & (seconds >= 0)) { //2^32-1
