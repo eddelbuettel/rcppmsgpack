@@ -3,12 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
-\section{Changes in version 0.2.3 (2018-07-xx)}{
+\section{Changes in version 0.2.3 (2018-11-18)}{
   \itemize{
     \item New functions \code{msgpack_read} and \code{msgpack_write} for
     efficient direct access to MessagePackage content from files
     (\ghpr{13}).
-    \item Several internal code polishes to smooth compilation
+    \item Several internal code polishes to smooth compilation (\ghpr{14}
+    and \ghpr{15}).
   }
 }
 

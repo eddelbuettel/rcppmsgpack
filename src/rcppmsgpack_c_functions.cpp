@@ -372,7 +372,7 @@ SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
     }
     if(L.size() != 1) {
         Rcpp::List LL = Rcpp::List(L.size());
-        for(uint i=0; i<L.size(); i++) {
+        for(size_t i=0; i<L.size(); i++) {
             LL[i] = L[i];
         }
         LL.attr("class") = "msgpack_set";
