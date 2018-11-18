@@ -6,7 +6,9 @@
 \section{Changes in version 0.2.3 (2018-07-xx)}{
   \itemize{
     \item New functions \code{msgpack_read} and \code{msgpack_write} for
-    efficient direct access to MessagePackage content from files (\ghpr{13}).
+    efficient direct access to MessagePackage content from files
+    (\ghpr{13}).
+    \item Several internal code polishes to smooth compilation
   }
 }
 

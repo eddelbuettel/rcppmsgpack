@@ -3,7 +3,7 @@
 #include "boost/variant.hpp"
 #include <Rcpp.h>
 
-using namespace Rcpp;
+namespace Rcpp {
 
 using AnyVector = boost::variant<LogicalVector, IntegerVector, NumericVector, CharacterVector, RawVector, List>;
 
@@ -181,3 +181,5 @@ int getType(const AnyVector &vec) {
 //     }
 //     return LogicalVector::create(); // should never reach
 // }
+
+}

@@ -1,3 +1,11 @@
+2018-11-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/rcppmsgpack_c_functions.cpp: Prefix as<>() calls with Rcpp as
+	Solaris cannot resolve them; also change some u_int32_t to uint32_t
+
+	* src/anyvector.h: Prefix all Rcpp types with Rcpp::
+	* src/rcppmsgpack_c_functions.cpp: Idem
+
 2018-06-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Roll minor release
