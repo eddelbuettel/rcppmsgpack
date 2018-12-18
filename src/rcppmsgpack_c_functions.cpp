@@ -353,7 +353,7 @@ SEXP unpackVisitor(const msgpack::object &obj, bool const simplify) {
 
 
 // [[Rcpp::export]]
-SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
+SEXP c_unpack(Rcpp::RawVector char_message, bool simplify) {
     // std::vector<unsigned char> char_message = as< std::vector<unsigned char> >(raw_message); // cast from RawVector
     // std::string message(char_message.begin(), char_message.end());
     // msgpack::object_handle oh = msgpack::unpack(message.data(), message.size());
@@ -361,7 +361,8 @@ SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify) {
     
     std::size_t off = 0;
     std::size_t len = char_message.size();
-    char* mdata = reinterpret_cast<char*>(char_message.data());
+    char* mdata = reinterpret_cast<char*>(RAW(char_message));
+    // char* mdata = reinterpret_cast<char*>(char_message.data());
     // const char* dat = ss.str().data();
     std::vector<SEXP> L(0);
     while(off != len) {
