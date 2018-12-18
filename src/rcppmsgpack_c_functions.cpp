@@ -13,6 +13,7 @@
 const double R_INT_MAX = 2147483647;
 const double R_INT_MIN = -2147483648;
 
+
 SEXP c_unpack(std::vector<unsigned char> char_message);
 Rcpp::AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, bool const simplify);
 SEXP unpackVisitor(const msgpack::object &obj, bool const simplify);
