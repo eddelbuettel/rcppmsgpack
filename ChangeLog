@@ -1,3 +1,7 @@
+2020-05-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Added 'Last Commit' and 'RJournal' badges
+
 2019-05-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Roll minor release
