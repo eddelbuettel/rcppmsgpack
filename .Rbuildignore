@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-.travis.yml
+^\.travis\.yml
 msgpack.org.md
 rebuild.sh
 .*\.tar\.gz
 ^local
 rticle
+^\.github
