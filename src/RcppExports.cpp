@@ -37,12 +37,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // c_unpack
-SEXP c_unpack(std::vector<unsigned char> char_message, bool simplify);
+SEXP c_unpack(Rcpp::RawVector char_message, bool simplify);
 RcppExport SEXP _RcppMsgPack_c_unpack(SEXP char_messageSEXP, SEXP simplifySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<unsigned char> >::type char_message(char_messageSEXP);
+    Rcpp::traits::input_parameter< Rcpp::RawVector >::type char_message(char_messageSEXP);
     Rcpp::traits::input_parameter< bool >::type simplify(simplifySEXP);
     rcpp_result_gen = Rcpp::wrap(c_unpack(char_message, simplify));
     return rcpp_result_gen;
