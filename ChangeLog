@@ -1,3 +1,7 @@
+2023-02-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/CITATION: Convert to bibentry() style with person(), use doi
+
 2022-11-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Update to actions/checkout@v3
