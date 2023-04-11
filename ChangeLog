@@ -1,5 +1,7 @@
 2023-04-10  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Date, Version): Roll micro release
+
 	* src/Makevars: No longer set a compilation standard
 
 2023-02-12  Dirk Eddelbuettel  <edd@debian.org>
