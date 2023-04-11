@@ -1,6 +1,2 @@
 
-## This is a C++11 package
-CXX_STD = CXX11
-
-# PKG_CXXFLAGS = -I/home/edd/git/msgpack-c/include
-PKG_CXXFLAGS = -I../inst/include
+PKG_CPPFLAGS = -I../inst/include
