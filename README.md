@@ -3,7 +3,7 @@
 [![CI](https://github.com/eddelbuettel/rcppmsgpack/workflows/ci/badge.svg)](https://github.com/eddelbuettel/rcppmsgpack/actions?query=workflow%3Aci)
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) 
 [![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) 
-[![Dependencies](https://tinyverse.netlify.com/badge/RcppGetconf)](https://cran.r-project.org/package=RcppGetconf) 
+[![Dependencies](https://tinyverse.netlify.app/badge/RcppGetconf)](https://cran.r-project.org/package=RcppGetconf) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://www.r-pkg.org/pkg/RcppMsgPack)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rcppmsgpack)](https://github.com/eddelbuettel/rcppmsgpack)
 [![RJournal](https://img.shields.io/badge/RJournal-10.32614%2FRJ--2018--068-brightgreen)](https://doi.org/10.32614/RJ-2018-068)
