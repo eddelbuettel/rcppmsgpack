@@ -1,28 +1,28 @@
 ## RcppMsgPack: MsgPack Headers for R and interface functions
 
 [![CI](https://github.com/eddelbuettel/rcppmsgpack/workflows/ci/badge.svg)](https://github.com/eddelbuettel/rcppmsgpack/actions?query=workflow%3Aci)
-[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html) 
-[![CRAN](http://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) 
+[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html) 
+[![CRAN](https://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) 
 [![Dependencies](https://tinyverse.netlify.app/badge/RcppGetconf)](https://cran.r-project.org/package=RcppGetconf) 
-[![Downloads](http://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](http://www.r-pkg.org/pkg/RcppMsgPack)
+[![Downloads](https://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](https://www.r-pkg.org/pkg/RcppMsgPack)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rcppmsgpack)](https://github.com/eddelbuettel/rcppmsgpack)
 [![RJournal](https://img.shields.io/badge/RJournal-10.32614%2FRJ--2018--068-brightgreen)](https://doi.org/10.32614/RJ-2018-068)
 
 ### About
 
 This package provides [R](https://www.r-project.org) with both the
-[MessagePack](http://msgpack.org/) (or MsgPack as a shorthand) header files, and the ability to
-access, create and alter [MessagePack](http://msgpack.org/) objects directly from
+[MessagePack](https://msgpack.org/) (or MsgPack as a shorthand) header files, and the ability to
+access, create and alter [MessagePack](https://msgpack.org/) objects directly from
 [R](https://www.r-project.org).
 
-[MessagePack](http://msgpack.org/) is an efficient binary serialization format.  It lets you
+[MessagePack](https://msgpack.org/) is an efficient binary serialization format.  It lets you
 exchange data among multiple languages like JSON. But it is faster and smaller.  Small integers
 are encoded into a single byte, and typical short strings require only one extra byte in
-addition to the strings themselves.  [MessagePack](http://msgpack.org/) is used by Redis and
+addition to the strings themselves.  [MessagePack](https://msgpack.org/) is used by Redis and
 many other projects.
 
 The [R Journal paper](https://doi.org/10.32614/RJ-2018-068) describes both the `RcppMsgPack`
-package and [MessagePack](http://msgpack.org/).
+package and [MessagePack](https://msgpack.org/).
 
 ### Usage
 #### C++ headers
@@ -67,7 +67,7 @@ The package is on [CRAN](https://cran.r-project.org) and can be installed via a 
 install.packages("RcppMsgPack")
 ```
 
-Pre-releases have been available via the [ghrr drat](http://ghrr.github.io/drat)
+Pre-releases have been available via the [ghrr drat](https://ghrr.github.io/drat)
 repository:
 
 ```{.r}
@@ -81,9 +81,9 @@ The package currently includes the MessagePack headers version 2.1.5.
 
 ### See Also
 
-See the [BH](http://dirk.eddelbuettel.com/code/bh.html) package for related (and also
-header-only) libraries from [Boost](http://www.boost.org/), and the
-[RcppRedis](http://dirk.eddelbuettel.com/code/rcppredis.html) package for simple yet performant
+See the [BH](https://dirk.eddelbuettel.com/code/bh.html) package for related (and also
+header-only) libraries from [Boost](https://www.boost.org/), and the
+[RcppRedis](https://dirk.eddelbuettel.com/code/rcppredis.html) package for simple yet performant
 Redis support.
 
 ### Bug Reports
