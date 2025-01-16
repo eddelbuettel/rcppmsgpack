@@ -8,12 +8,12 @@
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
 msgpack_simplify <- function(x) {
-    if(!is.list(x)) return(x)
+    if (!is.list(x)) return(x)
 
-    if(class(x)[1] == "map") {
-        key = msgpack_simplify(x[["key"]])
-        value = msgpack_simplify(x[["value"]])
-        if(class(key) == "character") {
+    if (inherits(x, "map")) {
+        key <- msgpack_simplify(x[["key"]])
+        value <- msgpack_simplify(x[["value"]])
+        if (inherits(key, "character")) {
             names(value) <- key
             return(value)
         } else {
@@ -27,22 +27,22 @@ msgpack_simplify <- function(x) {
     xc <- sapply(x, function(xi) class(xi)[1])
     xcu <- unique(xc)
 
-    if(len == 0) {
+    if (len == 0) {
         return(x)
-    } else if(all(xcu %in% c("logical", "NULL"))) {
+    } else if (all(xcu %in% c("logical", "NULL"))) {
         x[which(xc == "NULL")] <- NA
         return(unlist(x))
-    } else if(all(xcu %in% c("character", "NULL"))) {
+    } else if (all(xcu %in% c("character", "NULL"))) {
         x[which(xc == "NULL")] <- NA_character_
         return(unlist(x))
-    } else if(all(xcu %in% c("integer", "NULL"))) {
+    } else if (all(xcu %in% c("integer", "NULL"))) {
         x[which(xc == "NULL")] <- NA_integer_
         return(unlist(x))
-    } else if(all(xcu %in% c("numeric", "integer", "NULL"))) {
+    } else if (all(xcu %in% c("numeric", "integer", "NULL"))) {
         x[which(xc == "NULL")] <- NA_real_
         return(unlist(x))
     } else {
-        for(i in which(xc %in% c("list", "map"))) {
+        for (i in which(xc %in% c("list", "map"))) {
             x[[i]] <- msgpack_simplify(x[[i]])
         }
         return(x)
@@ -62,10 +62,10 @@ msgpackSimplify <- msgpack_simplify
 #' x_unpacked <- msgpack_unpack(x_packed)
 #' x_simplified <- msgpack_simplify(x_unpacked)
 msgpack_format <- function(x) {
-    xc <- class(x)[1]
+    #xc <- class(x)[1]
     # print(xc)
-    if(xc %in% c("logical", "integer", "numeric", "character")) {
-        if(length(x) > 1) {
+    if (inherits(x, c("logical", "integer", "numeric", "character"))) {
+        if (length(x) > 1) {
             xna <- which(is.na(x))
             x <- as.list(x)
             x[xna] <- list(NULL)
@@ -73,14 +73,14 @@ msgpack_format <- function(x) {
         } else {
             return(x)
         }
-    } else if(xc == "raw") {
+    } else if (inherits(x, "raw")) {
         return(x)
-    } else if(xc == "list") {
-        for(i in seq_along(x)) {
+    } else if (inherits(x, "list")) {
+        for (i in seq_along(x)) {
             x[[i]] <- msgpack_format(x[[i]])
         }
         return(x)
-    } else if(xc == "map") {
+    } else if (inherits(x, "map")) {
         x <- msgpack_map(key=x[["key"]], value=x[["value"]])
         return(x)
     }
@@ -99,10 +99,10 @@ msgpackFormat <- msgpack_format
 #' x_packed <- msgpack_pack(x)
 #' x_unpacked <- msgpack_unpack(x_packed)
 msgpack_map <- function(key, value) {
-    for(a in attributes(key)) {
+    for (a in attributes(key)) {
         attr(key, a) <- NULL
     }
-    for(a in attributes(value)) {
+    for (a in attributes(value)) {
         attr(value, a) <- NULL
     }    
     x <- list(key=as.list(key), value=as.list(value))
@@ -126,7 +126,7 @@ msgpackMap <- msgpack_map
 #' @seealso See examples/tests.r for more examples.  
 msgpack_pack <- function(...) {
     obj_list <- list(...)
-    if(length(obj_list) == 1) {
+    if (length(obj_list) == 1) {
         return(c_pack(obj_list[[1]]))
     } else {
         class(obj_list) <- "msgpack_set"
@@ -168,7 +168,7 @@ msgpackUnpack <- msgpack_unpack
 #' mtu <- msgpack_timestamp_decode(msgpack_unpack(mp))
 #' identical(mt, mtu)
 msgpack_timestamp_encode <- function(posix=NULL, seconds=NULL, nanoseconds=NULL) {
-    if(!is.null(posix)) {
+    if (!is.null(posix)) {
         x <- as.numeric(posix)
         seconds <- floor(x)
         nanoseconds <- round((x-seconds)*1e9)
@@ -217,20 +217,20 @@ msgpack_write <- function(..., msg=NULL, file, mode="auto") {
     if(is.null(msg)) {
         msg <- msgpack_pack(...)
     }
-    stopifnot("raw" %in% class(msg))
-    if("connection" %in% class(file)) {
+    stopifnot(inherits(msg, "raw"))
+    if (inherits(file, "connection")) {
         con <- file
-    } else if(mode=="auto") {
-        if(grepl("\\s", file)) {
+    } else if (mode=="auto") {
+        if (grepl("\\s", file)) {
             con <- pipe(file, open="wb")
-        } else if(grepl("\\.gz$", file)) {
+        } else if (grepl("\\.gz$", file)) {
             con <- gzfile(file, open="wb")
         } else {
             con <- file(file, open="wb")
         }
-    } else if(mode=="gzip") {
+    } else if (mode=="gzip") {
         con <- gzfile(file, open="wb")
-    } else if(mode=="pipe") {
+    } else if (mode=="pipe") {
         con <- pipe(file, open="wb")
     } else {
         con <- file(file, open="wb")
@@ -255,21 +255,21 @@ msgpackWrite <- msgpack_write
 #' x <- msgpack_read(tmp, simplify=TRUE)
 msgpack_read <- function(file, simplify=F, mode="auto", nbytes=16777216) {
     is_file <- F
-    if("connection" %in% class(file)) {
+    if (inherits(file, "connection")) {
         con <- file
     } else if(mode=="auto") {
-        if(grepl("\\s", file)) {
+        if (grepl("\\s", file)) {
             con <- pipe(file, open="rb")
-        } else if(grepl("\\.gz$", file)) {
+        } else if (grepl("\\.gz$", file)) {
             con <- gzfile(file, open="rb")
         } else {
             is_file <- T
             con <- file(file, open="rb")
             file_size <- file.info(file)$size
         }
-    } else if(mode=="gzip") {
+    } else if (mode=="gzip") {
         con <- gzfile(file, open="rb")
-    } else if(mode=="pipe") {
+    } else if (mode=="pipe") {
         con <- pipe(file, open="rb")
     } else {
         is_file <- T
@@ -277,7 +277,7 @@ msgpack_read <- function(file, simplify=F, mode="auto", nbytes=16777216) {
         file_size <- file.info(file)$size
     }
     
-    if(is_file) {
+    if (is_file) {
         bin <- readBin(con = con, what="raw", n=file_size)
     } else {
         bin_list <- list()
