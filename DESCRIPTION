@@ -1,8 +1,8 @@
 Package: RcppMsgPack
 Type: Package
 Title: 'MsgPack' C++ Header Files and Interface Functions for R
-Version: 0.2.3.2
-Date: 2023-04-10
+Version: 0.2.4
+Date: 2025-01-19
 Authors@R: c(person("Dirk", "Eddelbuettel", role = c("aut", "cre"), email = "edd@debian.org",
                     comment = c(ORCID = "0000-0001-6419-907X")),
              person("Travers", "Ching", email = "traversc@gmail.com", role = "aut"),

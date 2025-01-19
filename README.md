@@ -67,7 +67,7 @@ The package is on [CRAN](https://cran.r-project.org) and can be installed via a 
 install.packages("RcppMsgPack")
 ```
 
-Pre-releases have been available via the [ghrr drat](https://ghrr.github.io/drat)
+Pre-releases have been available via the [ghrr drat](https://ghrr.github.io/drat/)
 repository:
 
 ```{.r}

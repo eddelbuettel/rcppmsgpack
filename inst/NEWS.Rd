@@ -3,6 +3,17 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
+\section{Changes in version 0.2.4 (2025-01-19)}{
+  \itemize{
+    \item Use \code{Rcpp::RawVector} instead of \code{std::vector<unsigned
+      char>} saving extra copy (Travers in \ghpr{16})
+    \item Several updates to README.md with R Journal paper, add badges, add
+    Authors@R, add CITATION file, add repo info to DESCRIPTION
+    \item Update continuous integration via r-ci
+    \item Update to no longer require compilation standard
+  }
+}
+
 \section{Changes in version 0.2.3 (2018-11-18)}{
   \itemize{
     \item New functions \code{msgpack_read} and \code{msgpack_write} for

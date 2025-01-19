@@ -1,3 +1,12 @@
+2025-01-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): Release 0.2.4
+
+2025-01-16  Travers Ching  <traversc@gmail.com>
+
+	* src/rcppmsgpack_c_functions.cpp: Use Rcpp::RawVector instead of
+	std::vector<unsigned char> saving extra copy
+
 2025-01-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/functions.R: Switch class comparison to inherits
