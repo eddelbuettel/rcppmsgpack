@@ -1,5 +1,10 @@
 2025-10-25  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Date, Version): Roll micro release
+
+	* src/rcppmsgpack_c_functions.cpp (unpackVector): Treat integer and
+	numeric as distinct types for one-row data.frames containing them
+
 	* cleanup: Add simple helper
 
 2025-01-19  Dirk Eddelbuettel  <edd@debian.org>

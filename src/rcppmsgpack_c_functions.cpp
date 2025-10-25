@@ -213,7 +213,7 @@ Rcpp::AnyVector unpackVector(const std::vector<msgpack::object> &obj_vector, boo
                 list_type = true;
             break;
             }
-            sum_types = (numeric_type || integer_type) + logical_type + character_type + list_type;
+            sum_types = numeric_type + integer_type + logical_type + character_type + list_type;
             if(list_type) break;
             if((numeric_type || integer_type) && null_type) break;
             if(sum_types > 1) break;
