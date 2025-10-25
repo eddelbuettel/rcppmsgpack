@@ -1,3 +1,7 @@
+2025-10-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* cleanup: Add simple helper
+
 2025-01-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Release 0.2.4
