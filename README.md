@@ -1,8 +1,9 @@
 ## RcppMsgPack: MsgPack Headers for R and interface functions
 
 [![CI](https://github.com/eddelbuettel/rcppmsgpack/workflows/ci/badge.svg)](https://github.com/eddelbuettel/rcppmsgpack/actions?query=workflow%3Aci)
-[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html) 
+[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](https://www.r-pkg.org/badges/version/RcppMsgPack)](https://cran.r-project.org/package=RcppMsgPack) 
+[![r-universe](https://eddelbuettel.r-universe.dev/badges/RcppMsgPack)](https://eddelbuettel.r-universe.dev/RcppMsgPack)
 [![Dependencies](https://tinyverse.netlify.app/badge/RcppGetconf)](https://cran.r-project.org/package=RcppGetconf) 
 [![Downloads](https://cranlogs.r-pkg.org/badges/RcppMsgPack?color=brightgreen)](https://www.r-pkg.org/pkg/RcppMsgPack)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rcppmsgpack)](https://github.com/eddelbuettel/rcppmsgpack)
@@ -67,13 +68,18 @@ The package is on [CRAN](https://cran.r-project.org) and can be installed via a 
 install.packages("RcppMsgPack")
 ```
 
-Pre-releases have been available via the [ghrr drat](https://ghrr.github.io/drat/)
-repository:
+Development releases are also provided by r-universe which can accessed via
 
 ```{.r}
-drat::addRepo("ghrr")
-install.packages("RcppMsgPack")
+install.packages('RcppMsgPack',
+                 repos = c('https://eddelbuettel.r-universe.dev',
+                           'https://cloud.r-project.org'))
 ```
+
+which offers source and binaries releases based on the main `git` branch for the common operating
+systems.  Linux binaries are also available, see the corresponding
+[documentation](https://docs.r-universe.dev/install/binaries.html#binaries-linux).
+
 
 ### Status
 
