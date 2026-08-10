@@ -7,6 +7,10 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //    http://www.boost.org/LICENSE_1_0.txt)
 //
+
+// clang++-23 wants this
+#include <type_traits>
+
 #include "msgpack/object.hpp"
 #include "msgpack/iterator.hpp"
 #include "msgpack/zone.hpp"
