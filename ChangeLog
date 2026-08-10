@@ -1,5 +1,7 @@
 2026-08-10  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Date, Version): Roll micro release
+
 	* inst/include/msgpack.hpp: clang++-23 needs an explicit include of
 	header 'type_traits'
 
