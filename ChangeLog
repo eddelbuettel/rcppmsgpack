@@ -3,6 +3,8 @@
 	* inst/include/msgpack.hpp: clang++-23 needs an explicit include of
 	header 'type_traits'
 
+	* .github/workflows/ci.yaml (jobs): Switch to actions/checkout@v7
+
 2026-01-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml: Switch to actions/checkout@v6
