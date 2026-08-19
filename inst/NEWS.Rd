@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppmsgpack/pull/#1}{##1}} 
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppmsgpack/issues/#1}{##1}} 
 
+\section{Changes in version 0.2.5 (2026-08-19)}{
+  \itemize{
+    \item Explicitly include header "type_traints.h" to appease clang++-23
+    \item Standard maintenance updating continuous integration, adding minor
+    helper script, and updating README.md
+  }
+}
+
 \section{Changes in version 0.2.4 (2025-01-19)}{
   \itemize{
     \item Use \code{Rcpp::RawVector} instead of \code{std::vector<unsigned
