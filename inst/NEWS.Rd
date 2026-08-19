@@ -5,7 +5,7 @@
 
 \section{Changes in version 0.2.5 (2026-08-19)}{
   \itemize{
-    \item Explicitly include header "type_traints.h" to appease clang++-23
+    \item Explicitly include header "type_traits.h" to appease clang++-23
     \item Standard maintenance updating continuous integration, adding minor
     helper script, and updating README.md
   }
